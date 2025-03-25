@@ -18,8 +18,6 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->integer('id_suc')->nullable()->comment('Sucursal principal del usuario || Nulleable por que no necesita sucursal principal');
-            $table->integer('id_rol')->nullable();
             $table->timestamps();
         });
 
