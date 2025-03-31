@@ -1,0 +1,29 @@
+models:
+  Store:
+    nombre: string comment:"Nombre de la sucursal"
+    alias: nullable string
+    correo_principal: nullable string
+    correo_secundario: nullable string
+    telefono_principal: nullable string
+    telefono_secundario: nullable string
+    calle: nullable string
+    numero_externo: nullable string
+    numero_interno: nullable string
+    colonia: nullable string
+    entidad: nullable string comment:"Delegación, alcaldía"
+    estado: nullable string
+    cp: nullable string
+    nota_direccion: nullable string
+    relationships:
+      hasMany : StoreUser:&User
+  StoreUser:
+    indexes:
+      - unique:  store_id, user_id
+    relationships:
+      belongsTo: Store, App\Models\User
+controllers:
+  Store:
+    resource
+  StoreUser:
+    resource
+seeders: Store, StoreUser

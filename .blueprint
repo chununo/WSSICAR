@@ -1,0 +1,31 @@
+created:
+    - app/Http/Controllers/StoreController.php
+    - app/Http/Controllers/StoreUserController.php
+    - database/factories/StoreFactory.php
+    - database/factories/StoreUserFactory.php
+    - database/migrations/2025_03_26_032717_create_stores_table.php
+    - database/migrations/2025_03_26_032718_create_store_users_table.php
+    - app/Models/Store.php
+    - app/Models/StoreUser.php
+    - database/seeders/StoreSeeder.php
+    - database/seeders/StoreUserSeeder.php
+    - tests/Feature/Http/Controllers/StoreControllerTest.php
+    - tests/Feature/Http/Controllers/StoreUserControllerTest.php
+    - app/Http/Requests/StoreStoreRequest.php
+    - app/Http/Requests/StoreUpdateRequest.php
+    - app/Http/Requests/StoreUserStoreRequest.php
+    - app/Http/Requests/StoreUserUpdateRequest.php
+    - resources/views/store/index.blade.php
+    - resources/views/store/create.blade.php
+    - resources/views/store/show.blade.php
+    - resources/views/store/edit.blade.php
+    - resources/views/storeUser/index.blade.php
+    - resources/views/storeUser/create.blade.php
+    - resources/views/storeUser/show.blade.php
+    - resources/views/storeUser/edit.blade.php
+updated:
+    - routes/web.php
+models:
+    User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
+    Store: { nombre: 'string comment:"Nombre de la sucursal"', alias: 'nullable string', correo_principal: 'nullable string', correo_secundario: 'nullable string', telefono_principal: 'nullable string', telefono_secundario: 'nullable string', calle: 'nullable string', numero_externo: 'nullable string', numero_interno: 'nullable string', colonia: 'nullable string', entidad: 'nullable string comment:"Delegación, alcaldía"', estado: 'nullable string', cp: 'nullable string', nota_direccion: 'nullable string', relationships: { hasMany: 'StoreUser:&User' } }
+    StoreUser: { indexes: [{ unique: 'store_id, user_id' }], relationships: { belongsTo: 'Store, App\Models\User' } }

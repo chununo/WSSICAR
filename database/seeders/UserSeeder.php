@@ -14,6 +14,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $data = [
+            'id'        => 1,
 			'name'      => "admin",
 			'email'     => "admin@pancopilco.mx",
 			'password'  => "LilitEv@304290"
@@ -23,6 +24,7 @@ class UserSeeder extends Seeder
         $admin->assignRole("admin");
 
         $data = [
+            'id'        => 2,
 			'name'      => "copilco",
 			'email'     => "copilco@pancopilco.mx",
 			'password'  => "Nor@304290923"

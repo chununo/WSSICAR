@@ -15,8 +15,8 @@ Route::post('/tokens/create', function (Request $request) {
 });
 
 Route::post('user/login', [AuthController::class, "login"]);
- 
+
 // Registro de usuario solo puede ser por el rol de Admin
-Route::middleware("auth:sanctum","role:admin")->group(function(){
+Route::middleware("auth:sanctum","is_admin")->group(function(){
     Route::post('user/register', [AuthController::class, "register"]);       
 });
