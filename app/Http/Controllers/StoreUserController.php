@@ -5,62 +5,43 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserStoreRequest;
 use App\Http\Requests\StoreUserUpdateRequest;
 use App\Models\StoreUser;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
 
 class StoreUserController extends Controller
 {
-    public function index(Request $request): View
+    public function index() : JsonResponse
     {
-        $storeUsers = StoreUser::all();
-
-        return view('storeUser.index', [
-            'storeUsers' => $storeUsers,
-        ]);
+        return response()->json(StoreUser::all());
     }
 
-    public function create(Request $request): View
+    public function store(StoreUserStoreRequest $request): JsonResponse
     {
-        return view('storeUser.create');
+        $store = StoreUser::create($request->validated());
+        return empty($store) ? response()->json(null,409) : response()->json($store);
     }
 
-    public function store(StoreUserStoreRequest $request): RedirectResponse
+    public function show($store_id, $user_id) : JsonResponse
     {
-        $storeUser = StoreUser::create($request->validated());
+        $storeUser = StoreUser::where('store_id', $store_id)
+        ->where('user_id', $user_id)
+        ->first();
 
-        $request->session()->flash('storeUser.id', $storeUser->id);
-
-        return redirect()->route('storeUsers.index');
+        if (!$storeUser) {
+        return response()->json(['message' => 'StoreUser not found'], 404);}
+        return response()->json($storeUser);
     }
 
-    public function show(Request $request, StoreUser $storeUser): View
+    public function destroy($store_id, $user_id): JsonResponse
     {
-        return view('storeUser.show', [
-            'storeUser' => $storeUser,
-        ]);
-    }
+        $storeUser = StoreUser::find([$store_id,$user_id]);
 
-    public function edit(Request $request, StoreUser $storeUser): View
-    {
-        return view('storeUser.edit', [
-            'storeUser' => $storeUser,
-        ]);
-    }
+        if (!$storeUser) {
+            return response()->json(['message' => 'StoreUser no encontrado'], 404);
+        }
 
-    public function update(StoreUserUpdateRequest $request, StoreUser $storeUser): RedirectResponse
-    {
-        $storeUser->update($request->validated());
-
-        $request->session()->flash('storeUser.id', $storeUser->id);
-
-        return redirect()->route('storeUsers.index');
-    }
-
-    public function destroy(Request $request, StoreUser $storeUser): RedirectResponse
-    {
         $storeUser->delete();
 
-        return redirect()->route('storeUsers.index');
+        return response()->json($storeUser);
     }
+
 }

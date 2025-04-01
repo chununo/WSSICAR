@@ -5,10 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Thiagoprz\CompositeKey\HasCompositeKey;
 
 class StoreUser extends Model
 {
-    use HasFactory;
+    use HasFactory, HasCompositeKey;
+
+    public $incrementing = false;
+    protected $primaryKey = ['store_id', 'user_id'];
 
     /**
      * The attributes that are mass assignable.

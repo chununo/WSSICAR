@@ -5,62 +5,36 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreStoreRequest;
 use App\Http\Requests\StoreUpdateRequest;
 use App\Models\Store;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
 
 class StoreController extends Controller
 {
-    public function index(Request $request): View
+    public function index() : JsonResponse
     {
-        $stores = Store::all();
-
-        return view('store.index', [
-            'stores' => $stores,
-        ]);
+        return response()->json(Store::all());
     }
 
-    public function create(Request $request): View
-    {
-        return view('store.create');
-    }
-
-    public function store(StoreStoreRequest $request): RedirectResponse
+    public function store(StoreStoreRequest $request): JsonResponse
     {
         $store = Store::create($request->validated());
-
-        $request->session()->flash('store.id', $store->id);
-
-        return redirect()->route('stores.index');
+        return empty($store) ? response()->json(null,409) : response()->json($store);
     }
 
-    public function show(Request $request, Store $store): View
+    public function show(Store $store) : JsonResponse
     {
-        return view('store.show', [
-            'store' => $store,
-        ]);
+        return response()->json($store);
     }
 
-    public function edit(Request $request, Store $store): View
-    {
-        return view('store.edit', [
-            'store' => $store,
-        ]);
-    }
-
-    public function update(StoreUpdateRequest $request, Store $store): RedirectResponse
+    public function update(StoreUpdateRequest $request, Store $store) : JsonResponse
     {
         $store->update($request->validated());
-
-        $request->session()->flash('store.id', $store->id);
-
-        return redirect()->route('stores.index');
+        $updatedStore = $store->fresh();
+        return response()->json($updatedStore);
     }
 
-    public function destroy(Request $request, Store $store): RedirectResponse
+    public function destroy(Store $store): JsonResponse
     {
         $store->delete();
-
-        return redirect()->route('stores.index');
+        return response()->json($store);
     }
 }
