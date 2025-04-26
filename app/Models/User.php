@@ -8,11 +8,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
+
+	protected $appends = [
+		'store_id'
+	];
 
     /**
      * The attributes that are mass assignable.
@@ -47,4 +52,28 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+	/**
+	 * The attributes that should be appended.
+	 *
+	 * @return Store
+	 */
+	public function Store(): HasOneThrough
+	{
+		return $this->hasOneThrough(Store::class, StoreUser::class, 'user_id', 'id', 'id', 'store_id');
+	}
+
+	/**
+	 * Get the store_id attribute.
+	 *
+	 * @return int|null
+	 */
+	public function getStoreIdAttribute(){
+		try {
+			 return $this->Store->id;
+		} catch (\Throwable $th) {
+			 return null;
+		}
+		 
+	 }
 }

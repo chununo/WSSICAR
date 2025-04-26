@@ -1,0 +1,25 @@
+models:
+  Impuesto:
+    imp_id: biginteger
+    nombre: string comment:"Nombre del impuesto (máximo 20 caracteres)"
+    impuesto: decimal(20,6)
+    impreso: boolean
+    tras: boolean default:1
+    local: boolean default:0
+    aplicarIVA: boolean default:0
+    orden: integer default:0
+    status: integer
+    tipoFactor: nullable string comment:"Tipo de factor (máximo 15 caracteres)"
+    cco_id: nullable integer
+    compraPagada: nullable integer
+    compraCredito: nullable integer
+    gastoPagado: nullable integer
+    gastoCredito: nullable integer
+    anticipoCliente: nullable integer
+    suc_id: integer
+
+controllers: 
+  Impuesto:
+    resource : api
+
+seeders: Impuesto
