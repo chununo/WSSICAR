@@ -1,13 +1,13 @@
 created:
-    - app/Http/Controllers/ImpuestoController.php
-    - database/factories/ImpuestoFactory.php
-    - database/migrations/2025_04_25_222734_create_impuestos_table.php
-    - app/Models/Impuesto.php
-    - tests/Feature/Http/Controllers/ImpuestoControllerTest.php
-    - app/Http/Requests/ImpuestoStoreRequest.php
-    - app/Http/Requests/ImpuestoUpdateRequest.php
-    - app/Http/Resources/ImpuestoCollection.php
-    - app/Http/Resources/ImpuestoResource.php
+    - app/Http/Controllers/CategoriaController.php
+    - database/factories/CategoriaFactory.php
+    - database/migrations/2025_04_26_041247_create_categorias_table.php
+    - app/Models/Categoria.php
+    - tests/Feature/Http/Controllers/CategoriaControllerTest.php
+    - app/Http/Requests/CategoriumStoreRequest.php
+    - app/Http/Requests/CategoriumUpdateRequest.php
+    - app/Http/Resources/CategoriumCollection.php
+    - app/Http/Resources/CategoriumResource.php
 updated:
     - routes/api.php
 models:
@@ -15,3 +15,5 @@ models:
     StoreUser: { store_id: 'biginteger unsigned', user_id: 'biginteger unsigned' }
     User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
     Impuesto: { store_id: 'id foreign', imp_id: biginteger, nombre: 'string comment:"Nombre del impuesto (máximo 20 caracteres)"', impuesto: 'decimal:20,6 comment:"Impuesto (máximo 20 caracteres)"', impreso: boolean, tras: 'boolean default:1', local: 'boolean default:0', aplicarIVA: 'boolean default:0', orden: 'integer default:0', status: integer, tipoFactor: 'nullable string comment:"Tipo de factor (máximo 15 caracteres)"', cco_id: 'nullable integer', compraPagada: 'nullable integer', compraCredito: 'nullable integer', gastoPagado: 'nullable integer', gastoCredito: 'nullable integer', anticipoCliente: 'nullable integer', indexes: [{ unique: 'store_id, imp_id' }] }
+    Departamento: { store_id: 'id foreign', dep_id: biginteger, nombre: 'string comment:"Nombre del departamento (máximo 45 caracteres)"', restringido: 'boolean default:0', porcentaje: 'decimal:20,2 default:0.00', system: 'boolean default:0', status: integer, imagen: 'nullable binary', comision: 'nullable decimal:20,4', indexes: [{ unique: 'store_id, dep_id' }] }
+    Categoria: { store_id: 'id foreign', cat_id: biginteger, nombre: 'string:45', system: 'boolean default:0', status: integer, departamento_id: 'id foreign', dep_id: biginteger, imagen: 'binary:longblob nullable', comision: 'decimal:20,4 nullable', indexes: [{ unique: 'store_id, cat_id' }] }

@@ -1,18 +1,18 @@
 models:
   Departamento:
-    dep_id: increments
+    store_id: id foreign
+    dep_id: biginteger
     nombre: string comment:"Nombre del departamento (máximo 45 caracteres)"
     restringido: boolean default:0
-    porcentaje: decimal(20,2) default:0.00
+    porcentaje: decimal:20,2 default:0.00
     system: boolean default:0
     status: integer
     imagen: nullable binary
-    comision: nullable decimal(20,4)
+    comision: nullable decimal:20,4
     indexes:
-      - unique: nombre, system
+      - unique: store_id, dep_id
 
 controllers:
   Departamento:
     resource: api
 
-seeders: Departamento

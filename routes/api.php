@@ -6,7 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\StoreUserController;
 use App\Http\Controllers\ImpuestoController;
-use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\DepartamentoController;
+use App\Http\Controllers\CategoriaController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -36,5 +37,11 @@ Route::middleware(["auth:sanctum","is_admin"])->group(function(){
 // Impuestos
 Route::middleware(["auth:sanctum","have_store"])->group(function(){
 	Route::apiResource('impuestos', ImpuestoController::class);
+	Route::apiResource('departamentos', DepartamentoController::class);
+	Route::apiResource('categorias', CategoriaController::class);
 });
+
+
+
+
 

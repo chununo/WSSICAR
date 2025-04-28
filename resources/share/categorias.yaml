@@ -1,0 +1,18 @@
+models:
+  Categoria:
+    store_id: id foreign                       
+    cat_id: biginteger                                 
+    nombre: string:45                          
+    system: boolean default:0                  
+    status: integer                            
+    departamento_id: id foreign
+    dep_id: biginteger                         
+    imagen: binary:longblob nullable                
+    comision: decimal:20,4 nullable            
+
+    indexes:
+      - unique: store_id, cat_id                 
+
+controllers:
+  Categoria:
+    resource: api                              

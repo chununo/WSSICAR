@@ -16,11 +16,6 @@ class ImpuestoUpdateRequest extends FormRequest
     public function rules(): array
     {
         
-		Log::debug('ImpuestoStoreRequest', [
-			'param'      => $this->route('impuesto'),
-			'is_model'   => is_object($this->route('impuesto')),
-			'model_id'   => optional($this->route('impuesto'))->id,
-		]);
 		// El modelo actual llega por route-model-binding:  /impuestos/{impuesto}
         $impuestoActual = $this->route('impuesto');
 

@@ -60,9 +60,16 @@ class ImpuestoStoreRequest extends FormRequest
 	public function messages(): array
 	{
 		return [
-			'store_id.required' => 'Debes indicar la sucursal para crear un impuesto.',
-			'store_id.exists'   => 'La sucursal seleccionada no existe.',
-			'imp_id.exists'   => 'Impuesto ya existe.',
+			'store_id.required' => 'El campo store_id es obligatorio.',
+			'store_id.exists'   => 'El valor seleccionado para store_id no es válido.',
+			'imp_id.required'   => 'El campo imp_id es obligatorio.',
+			'imp_id.integer'    => 'El campo imp_id debe ser un número entero.',
+			'nombre.required'   => 'El campo nombre es obligatorio.',
+			'nombre.string'     => 'El campo nombre debe ser una cadena de texto.',
+			'nombre.max'        => 'El campo nombre no puede tener más de 20 caracteres.',
+			'impuesto.required' => 'El campo impuesto es obligatorio.',
+			'impuesto.numeric'  => 'El campo impuesto debe ser un número.',
+			'impuesto.between'  => 'El campo impuesto debe estar entre 0 y 99999999999999.999999.',
 		];
 	}
 
