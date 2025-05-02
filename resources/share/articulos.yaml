@@ -1,0 +1,77 @@
+models:
+  Articulo:
+    store_id: id foreign
+    art_id: integer
+    clave: string:45
+    claveAlterna: string:45
+    descripcion: string:1000
+    servicio: boolean
+    localizacion: string:10
+    invMin: integer
+    invMax: integer
+    factor: decimal:20,3
+    precioCompra: decimal:20,3
+    preCompraProm: decimal:20,3
+    margen1: decimal:20,6
+    margen2: decimal:20,6
+    margen3: decimal:20,6
+    margen4: decimal:20,6
+    precio1: decimal:20,6 default:0.000000
+    precio2: decimal:20,6 default:0.000000
+    precio3: decimal:20,6 default:0.000000
+    precio4: decimal:20,6 default:0.000000
+    mayoreo1: decimal:20,3
+    mayoreo2: decimal:20,3
+    mayoreo3: decimal:20,3
+    mayoreo4: decimal:20,3
+    existencia: decimal:20,4
+    aislado: decimal:20,4 default:0.0000
+    disponible: decimal:20,4 default:0.0000
+    caracteristicas: text
+    iepsActivo: boolean default:0
+    cuotaIeps: decimal:20,4 default:0.0000
+    cuentaPredial: string:45
+    lote: boolean default:0
+    receta: boolean default:0
+    granel: boolean default:1
+    tipo: integer default:0
+    peso: decimal:20,4 default:0.0000
+    insumo: boolean default:0
+    platillo: boolean default:0
+    favorito: boolean default:0
+    requerirPreparacion: boolean default:0
+    presentacion: boolean default:0
+    presentacionPrecio: boolean default:0
+    pesoAut: boolean default:0
+    claveProdServ: string:15 nullable
+    status: integer
+    unidadCompra: integer
+    unidadVenta: integer
+    cat_id: integer
+    categoria_id: id foreign
+    srp_id: integer nullable
+    mem_id: integer nullable
+    diasVigencia: integer nullable
+    prp_id: integer nullable
+    merma: decimal:20,4 nullable
+    rpl_id: integer nullable
+    imp_id: integer nullable
+    tipoLote: integer nullable
+    nombreAduana: string:512 nullable
+    fechaDocAduanero: date nullable
+    pedimento: string:128 nullable
+    oculto: integer nullable
+    horarioPromo: integer nullable
+    existenciaActivo: decimal:20,4 nullable
+    preCompraPromGas: decimal:20,3 nullable
+    showEco: boolean default:1
+    etiquetaVenta: integer default:0
+    validation_status:   enum:valid,partial,invalid default:'valid'
+    validation_errors:   json nullable
+
+    indexes:
+      - unique: store_id, art_id
+
+controllers:
+  Articulo:
+    resource: api

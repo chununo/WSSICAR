@@ -8,6 +8,7 @@ use App\Http\Controllers\StoreUserController;
 use App\Http\Controllers\ImpuestoController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\UnidadController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -39,8 +40,8 @@ Route::middleware(["auth:sanctum","have_store"])->group(function(){
 	Route::apiResource('impuestos', ImpuestoController::class);
 	Route::apiResource('departamentos', DepartamentoController::class);
 	Route::apiResource('categorias', CategoriaController::class);
+	Route::apiResource('unidades', UnidadController::class)->parameter('unidades', 'unidad');
 });
-
 
 
 

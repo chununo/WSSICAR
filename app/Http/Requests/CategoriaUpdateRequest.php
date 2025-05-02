@@ -20,12 +20,11 @@ class CategoriaUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-		$storeId = $this->input('store_id') ?? $this->route('categoria')->store_id;
         return [
-            'nombre' => ['required', 'string', 'max:45'],
-            'system' => ['required'],
-            'status' => ['required', 'integer'],
-            'dep_id'   => ['required','integer'],
+            'nombre' => ['sometimes', 'string', 'max:45'],
+            'system' => ['sometimes'],
+            'status' => ['sometimes', 'integer'],
+            'dep_id'   => ['sometimes','integer'],
             'imagen' => ['nullable'],
             'comision' => ['nullable', 'numeric', 'between:-9999999999999999.9999,9999999999999999.9999'],
         ];

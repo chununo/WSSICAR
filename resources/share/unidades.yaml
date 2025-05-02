@@ -1,0 +1,14 @@
+models:
+  Unidad:
+    store_id: id foreign
+    uni_id: integer
+    nombre: string:5
+    status: integer
+    clave: string:10 nullable
+
+    indexes:
+      - unique: store_id, uni_id
+
+controllers:
+  Unidad:
+    resource: api

@@ -21,11 +21,11 @@ class DepartamentoUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required', 'string'],
-            'restringido' => ['required'],
-            'porcentaje' => ['required', 'numeric', 'between:-999999999999999999.99,999999999999999999.99'],
-            'system' => ['required'],
-            'status' => ['required', 'integer'],
+            'nombre' => ['sometimes', 'string'],
+            'restringido' => ['sometimes'],
+            'porcentaje' => ['sometimes', 'numeric', 'between:-999999999999999999.99,999999999999999999.99'],
+            'system' => ['sometimes'],
+            'status' => ['sometimes', 'integer'],
             'imagen' => ['nullable'],
             'comision' => ['nullable', 'numeric', 'between:-9999999999999999.9999,9999999999999999.9999'],
         ];
