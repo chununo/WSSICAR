@@ -20,19 +20,12 @@ class CategoriaUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+		$storeId = $this->input('store_id') ?? $this->route('categoria')->store_id;
         return [
-            'store_id' => ['required', 'integer', 'exists:stores,id'],
-            'cat_id' => ['required', 'integer',
-				// única por tienda
-				Rule::unique('categorias')->where(fn ($q) =>
-					$q->where('store_id', $this->input('store_id'))
-				)->ignore($this->route('categoria')->cat_id, 'cat_id'),
-			],
             'nombre' => ['required', 'string', 'max:45'],
             'system' => ['required'],
             'status' => ['required', 'integer'],
-            'departamento_id' => ['required', 'integer', 'exists:departamentos,id'],
-            'dep_id' => ['required', 'integer'],
+            'dep_id'   => ['required','integer'],
             'imagen' => ['nullable'],
             'comision' => ['nullable', 'numeric', 'between:-9999999999999999.9999,9999999999999999.9999'],
         ];
@@ -70,6 +63,7 @@ class CategoriaUpdateRequest extends FormRequest
 			'imagen.max' => 'La imagen no puede exceder los 2MB de tamaño.',
 			'comision.numeric' => 'El campo comision debe ser un número.',
 			'comision.between' => 'El campo comision debe estar entre -9999999999999999.9999 y 9999999999999999.9999',
+			'dep_id.exists' => "El departamento :input no existe en tu tienda.",
 		];
 	}
 	public function attributes(): array
@@ -83,6 +77,7 @@ class CategoriaUpdateRequest extends FormRequest
 			'departamento_id' => 'ID del departamento',
 			'imagen' => 'Imagen de la categoría',
 			'comision' => 'Comisión',
+			'dep_id' => 'ID del departamento',
 		];
 	}
 }

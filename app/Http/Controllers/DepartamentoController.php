@@ -7,6 +7,7 @@ use App\Http\Requests\DepartamentoUpdateRequest;
 use App\Http\Resources\DepartamentoCollection;
 use App\Http\Resources\DepartamentoResource;
 use App\Models\Departamento;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -36,6 +37,10 @@ class DepartamentoController extends Controller
 
     public function update(DepartamentoUpdateRequest $request, Departamento $departamento): DepartamentoResource
     {
+		Log::debug('DepartamentoController@update', [
+			'request' => $request->all(),
+			'departamento' => $departamento->toArray(),
+		]);
         $departamento->update($request->validated());
 
         return new DepartamentoResource($departamento);

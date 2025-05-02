@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasStoreScopedBinding;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Departamento extends Model
 {
-    use HasFactory;
+    use HasFactory, HasStoreScopedBinding;
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +26,7 @@ class Departamento extends Model
         'status',
         'imagen',
         'comision',
+		'departamento_id'
     ];
 
     /**
@@ -41,6 +43,10 @@ class Departamento extends Model
         'system' => 'boolean',
         'comision' => 'decimal:4',
     ];
+
+	protected $guarded = ['store_id'];
+
+	protected static $storeLocalKey = 'dep_id';
 
     public function store(): BelongsTo
     {

@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasStoreScopedBinding;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Categoria extends Model
 {
-    use HasFactory;
+    use HasFactory, HasStoreScopedBinding;
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +26,8 @@ class Categoria extends Model
         'dep_id',
         'imagen',
         'comision',
+		'validation_status',
+        'validation_errors',
     ];
 
     /**
@@ -40,7 +43,13 @@ class Categoria extends Model
         'departamento_id' => 'integer',
         'dep_id' => 'integer',
         'comision' => 'decimal:4',
+		'validation_status' => 'string',
+		'validation_errors' => 'array', 
     ];
+
+	protected $guarded = ['store_id'];
+
+	protected static $storeLocalKey = 'cat_id';
 
     public function store(): BelongsTo
     {

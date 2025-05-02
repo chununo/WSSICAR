@@ -21,13 +21,6 @@ class DepartamentoUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'store_id' => ['required', 'integer', 'exists:stores,id'],
-            'dep_id' => ['required', 'integer',
-				// única por tienda
-				Rule::unique('departamentos')->where(fn ($q) =>
-					$q->where('store_id', $this->input('store_id'))
-				)->ignore($this->route('departamento')->id), // ignora el propio registro
-			],
             'nombre' => ['required', 'string'],
             'restringido' => ['required'],
             'porcentaje' => ['required', 'numeric', 'between:-999999999999999999.99,999999999999999999.99'],

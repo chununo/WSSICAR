@@ -20,6 +20,7 @@ class CategoriaStoreRequest extends FormRequest
      */
     public function rules(): array
     {
+		$storeId = $this->input('store_id');
         return [
             'store_id' => ['required', 'integer', 'exists:stores,id'],
             'cat_id' => ['required', 'integer',
@@ -31,8 +32,7 @@ class CategoriaStoreRequest extends FormRequest
             'nombre' => ['required', 'string', 'max:45'],
             'system' => ['required'],
             'status' => ['required', 'integer'],
-            'departamento_id' => ['required', 'integer', 'exists:departamentos,id'],
-            'dep_id' => ['required', 'integer'],
+            'dep_id'   => ['required','integer'],
             'imagen' => ['nullable'],
             'comision' => ['nullable', 'numeric', 'between:-9999999999999999.9999,9999999999999999.9999'],
         ];
@@ -47,6 +47,7 @@ class CategoriaStoreRequest extends FormRequest
 		$this->merge([
 			'system' => filter_var($this->system, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
 		]);
+		
 	}
 	public function messages(): array
 	{
@@ -67,6 +68,8 @@ class CategoriaStoreRequest extends FormRequest
 			'imagen.max' => 'La imagen no puede exceder los 2 MB.',
 			'comision.numeric' => 'El campo comision debe ser un número.',
 			'comision.between' => 'El campo comision debe estar entre -9999999999999999.9999 y 9999999999999999.9999.',
+			'dep_id.required' => 'Debes indicar el dep_id del departamento.',
+			'dep_id.exists' => 'El departamento :input no existe en tu tienda.',
 		];
 	}
 	public function attributes(): array
@@ -79,6 +82,7 @@ class CategoriaStoreRequest extends FormRequest
 			'status' => 'Estado',
 			'imagen' => 'Imagen',
 			'comision' => 'Comisión',
+			'dep_id' => 'ID del departamento',
 		];
 	}
 }

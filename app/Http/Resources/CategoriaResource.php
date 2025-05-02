@@ -23,6 +23,8 @@ class CategoriaResource extends JsonResource
             'dep_id' => $this->dep_id,
             'imagen' => $this->imagen,
             'comision' => $this->comision,
+			'validation_status' => $this->validation_status,
+			'validation_errors' => $this->validation_errors
         ];
     }
 }
