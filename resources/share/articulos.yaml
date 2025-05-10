@@ -46,9 +46,11 @@ models:
     claveProdServ: string:15 nullable
     status: integer
     unidadCompra: integer
+    unidadCompra_id: id foreign:unidades nullable
     unidadVenta: integer
+    unidadVenta_id: id foreign:unidades nullable
     cat_id: integer
-    categoria_id: id foreign
+    categoria_id: id foreign nullable
     srp_id: integer nullable
     mem_id: integer nullable
     diasVigencia: integer nullable

@@ -63,4 +63,16 @@ class Impuesto extends Model
     {
         return $this->belongsTo(Store::class);
     }
+
+	public function articulos()
+	{
+		return $this->belongsToMany(
+			Articulo::class,
+			'articuloimpuesto',
+			'imp_id',
+			'art_id'
+		)
+		->using(ArticuloImpuesto::class)
+		->withPivot('store_id');
+	}
 }

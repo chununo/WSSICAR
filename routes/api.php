@@ -9,6 +9,8 @@ use App\Http\Controllers\ImpuestoController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\UnidadController;
+use App\Http\Controllers\ArticuloController;
+use App\Http\Controllers\ArticuloImpuestoController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -35,14 +37,15 @@ Route::middleware(["auth:sanctum","is_admin"])->group(function(){
     Route::get("storesusers", [StoreUserController::class, "index"]);
 });
 
-// Impuestos
+// Autorizado y con tienda
 Route::middleware(["auth:sanctum","have_store"])->group(function(){
 	Route::apiResource('impuestos', ImpuestoController::class);
 	Route::apiResource('departamentos', DepartamentoController::class);
 	Route::apiResource('categorias', CategoriaController::class);
 	Route::apiResource('unidades', UnidadController::class)->parameter('unidades', 'unidad');
+	Route::apiResource('articulos', ArticuloController::class);
+	Route::put('articulos/{articulo}/impuestos', [ArticuloImpuestoController::class, 'sync']);
 });
 
 
-
-
+Route::apiResource('paquetes', App\Http\Controllers\PaqueteController::class);

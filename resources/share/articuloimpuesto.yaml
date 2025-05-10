@@ -1,0 +1,11 @@
+models:
+  Articulo:
+    store_id: id foreign
+    art_id: integer
+    imp_id: integer
+    indexes:
+      - unique: store_id, art_id, imp_id
+
+controllers:
+  Articulo:
+    resource: api

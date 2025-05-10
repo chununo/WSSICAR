@@ -5,7 +5,9 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Auth\AuthenticationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -24,6 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
+		
         // 401 – No autenticado
 		$exceptions->renderable(function (AuthenticationException $e, $request) {
 			return new JsonResponse([
@@ -41,5 +44,25 @@ return Application::configure(basePath: dirname(__DIR__))
 				'message' => $e->getMessage() ?: 'Permiso denegado.',
 				'errors'  => ['auth' => [$e->getMessage() ?: 'Forbidden']],
 			], 403);
+		});
+
+		$exceptions->renderable(function (NotFoundHttpException $e, $request) {
+			$previous = $e->getPrevious();
+			if ($previous instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
+				$modelo = class_basename($previous->getModel());
+		
+				return response()->json([
+					'message' => "No se encontró el recurso solicitado.",
+					'errors' => [
+						'modelo' => ["{$modelo} no encontrado o no pertenece a tu tienda."],
+					],
+				], 404);
+			}
+			return response()->json([
+				'message' => 'El recurso solicitado no fue encontrado.',
+				'errors' => [
+					'modelo' => [class_basename($e->getMessage()) . ' no encontrado.'],
+				],
+			], 404);
 		});
     })->create();
