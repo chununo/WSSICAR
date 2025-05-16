@@ -1,3 +1,15 @@
+created:
+    - app/Http/Controllers/PaqueteController.php
+    - database/factories/PaqueteFactory.php
+    - database/migrations/2025_05_15_234708_create_paquetes_table.php
+    - app/Models/Paquete.php
+    - tests/Feature/Http/Controllers/PaqueteControllerTest.php
+    - app/Http/Requests/PaqueteStoreRequest.php
+    - app/Http/Requests/PaqueteUpdateRequest.php
+    - app/Http/Resources/PaqueteCollection.php
+    - app/Http/Resources/PaqueteResource.php
+updated:
+    - routes/api.php
 models:
     Articulo: { store_id: 'biginteger unsigned', art_id: integer, clave: 'string:45', claveAlterna: 'string:45', descripcion: 'string:1000', servicio: boolean, localizacion: 'string:10', invMin: integer, invMax: integer, factor: 'decimal:20,3', precioCompra: 'decimal:20,3', preCompraProm: 'decimal:20,3', margen1: 'decimal:20,6', margen2: 'decimal:20,6', margen3: 'decimal:20,6', margen4: 'decimal:20,6', precio1: 'decimal:20,6 default:0.000000', precio2: 'decimal:20,6 default:0.000000', precio3: 'decimal:20,6 default:0.000000', precio4: 'decimal:20,6 default:0.000000', mayoreo1: 'decimal:20,3', mayoreo2: 'decimal:20,3', mayoreo3: 'decimal:20,3', mayoreo4: 'decimal:20,3', existencia: 'decimal:20,4', aislado: 'decimal:20,4 default:0.0000', disponible: 'decimal:20,4 default:0.0000', caracteristicas: text, iepsActivo: boolean, cuotaIeps: 'decimal:20,4 default:0.0000', cuentaPredial: 'string:45', lote: boolean, receta: boolean, granel: 'boolean default:1', tipo: integer, peso: 'decimal:20,4 default:0.0000', insumo: boolean, platillo: boolean, favorito: boolean, requerirPreparacion: boolean, presentacion: boolean, presentacionPrecio: boolean, pesoAut: boolean, claveProdServ: 'string:15 nullable', status: integer, unidadCompra: integer, unidadCompra_id: 'biginteger unsigned nullable', unidadVenta: integer, unidadVenta_id: 'biginteger unsigned nullable', cat_id: integer, categoria_id: 'biginteger unsigned nullable', srp_id: 'integer nullable', mem_id: 'integer nullable', diasVigencia: 'integer nullable', prp_id: 'integer nullable', merma: 'decimal:20,4 nullable', rpl_id: 'integer nullable', imp_id: 'integer nullable', tipoLote: 'integer nullable', nombreAduana: 'string:512 nullable', fechaDocAduanero: 'date nullable', pedimento: 'string:128 nullable', oculto: 'integer nullable', horarioPromo: 'integer nullable', existenciaActivo: 'decimal:20,4 nullable', preCompraPromGas: 'decimal:20,3 nullable', showEco: 'boolean default:1', etiquetaVenta: integer, validation_status: "enum:'valid','partial','invalid' default:valid", validation_errors: 'json nullable' }
     ArticuloImpuesto: { store_id: 'biginteger unsigned', art_id: integer, imp_id: integer, articulo_id: 'biginteger unsigned nullable', impuesto_id: 'biginteger unsigned nullable', validation_status: "enum:'valid','partial','invalid' default:valid", validation_errors: 'json nullable' }
@@ -8,3 +20,4 @@ models:
     StoreUser: { store_id: 'biginteger unsigned', user_id: 'biginteger unsigned' }
     Unidad: { store_id: 'biginteger unsigned', uni_id: integer, nombre: 'string:5', status: integer, clave: 'string:10 nullable' }
     User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
+    Paquete: { store_id: 'id foreign', paquete: 'integer comment:"ID local del artículo que es paquete"', articulo: 'integer comment:"ID local del artículo contenido en el paquete"', paquete_id: 'id foreign:articulos nullable comment:"ID del servidor del artículo que es paquete"', articulo_id: 'id foreign:articulos nullable comment:"ID del servidor del artículo contenido"', cantidad: 'decimal:20,5', opcional: 'boolean default:0', incluido: 'boolean default:1', costoExtra: 'boolean default:0', porcion: 'decimal:20,3 nullable', grupo: 'integer nullable', maximo: 'integer nullable', minimo: 'integer nullable', multiplicador: 'integer nullable', validation_status: "enum:valid,partial,invalid default:'valid'", validation_errors: 'json nullable', indexes: [{ unique: 'store_id, paquete, articulo' }, { index: paquete_id }, { index: articulo_id }] }

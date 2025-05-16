@@ -1,0 +1,27 @@
+models:
+  Paquete:
+    store_id: id foreign
+    paquete: integer comment:"ID local del artículo que es paquete"
+    articulo: integer comment:"ID local del artículo contenido en el paquete"
+    paquete_id: id foreign:articulos nullable comment:"ID del servidor del artículo que es paquete"
+    articulo_id: id foreign:articulos nullable comment:"ID del servidor del artículo contenido"
+    cantidad: decimal:20,5
+    opcional: boolean default:0
+    incluido: boolean default:1
+    costoExtra: boolean default:0
+    porcion: decimal:20,3 nullable
+    grupo: integer nullable
+    maximo: integer nullable
+    minimo: integer nullable
+    multiplicador: integer nullable
+    validation_status: enum:valid,partial,invalid default:'valid'
+    validation_errors: json nullable
+
+    indexes:
+      - unique: store_id, paquete, articulo
+      - index: paquete_id
+      - index: articulo_id
+
+controllers:
+  Paquete:
+    resource: api

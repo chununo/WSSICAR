@@ -5,9 +5,11 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Auth\AuthenticationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -27,42 +29,67 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
 		
-        // 401 – No autenticado
-		$exceptions->renderable(function (AuthenticationException $e, $request) {
-			return new JsonResponse([
-				'message' => 'No autenticado.',
-				'errors'  => ['auth' => ['Debes iniciar sesión.']],
-			], 401);
-		});
-
-		// 403 – Prohibido
-		$exceptions->renderable(function (HttpException $e, $request) {
-			if ($e->getStatusCode() !== 403) {
-				return null; // solo intercepta 403
-			}
-			return new JsonResponse([
-				'message' => $e->getMessage() ?: 'Permiso denegado.',
-				'errors'  => ['auth' => [$e->getMessage() ?: 'Forbidden']],
-			], 403);
-		});
-
-		$exceptions->renderable(function (NotFoundHttpException $e, $request) {
-			$previous = $e->getPrevious();
-			if ($previous instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
-				$modelo = class_basename($previous->getModel());
-		
+        $exceptions->renderable(function (Throwable $e, $request) {
+			// Validaciones (422)
+			if ($e instanceof ValidationException) {
 				return response()->json([
-					'message' => "No se encontró el recurso solicitado.",
-					'errors' => [
-						'modelo' => ["{$modelo} no encontrado o no pertenece a tu tienda."],
-					],
+					'data'    => null,
+					'success' => false,
+					'message' => 'Error de validación.',
+					'errors'  => $e->errors(),
+				], 422);
+			}
+
+			// No autenticado (401)
+			if ($e instanceof AuthenticationException) {
+				return response()->json([
+					'data'    => null,
+					'success' => false,
+					'message' => 'No autenticado.',
+				], 401);
+			}
+
+			// Permiso denegado (403)
+			if ($e instanceof HttpException && $e->getStatusCode() === 403) {
+				return response()->json([
+					'data'    => null,
+					'success' => false,
+					'message' => 'Permiso denegado.',
+				], 403);
+			}
+
+			// Recurso no encontrado (404)
+			if ($e instanceof ModelNotFoundException) {
+				return response()->json([
+					'data'    => null,
+					'success' => false,
+					'message' => class_basename($e->getModel()) . ' no encontrado.',
 				], 404);
 			}
+
+			// Error SQL (duplicados, claves foráneas, etc)
+			if ($e instanceof QueryException) {
+				return response()->json([
+					'data'    => null,
+					'success' => false,
+					'message' => 'Error de base de datos: ' . $e->getMessage(),
+				], 500);
+			}
+
+			if ($e instanceof NotFoundHttpException) {
+				return response()->json([
+					'data'    => null,
+					'success' => false,
+					'message' => 'Ruta o recurso no encontrado.',
+					'error' => $e->getMessage()
+				], 404);
+			}
+
+			// Si no se reconoció nada anterior: error genérico
 			return response()->json([
-				'message' => 'El recurso solicitado no fue encontrado.',
-				'errors' => [
-					'modelo' => [class_basename($e->getMessage()) . ' no encontrado.'],
-				],
-			], 404);
+				'data'    => null,
+				'success' => false,
+				'message' => 'Error del servidor.',
+			], 500);
 		});
     })->create();

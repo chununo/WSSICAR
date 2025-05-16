@@ -11,6 +11,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\UnidadController;
 use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\ArticuloImpuestoController;
+use App\Http\Controllers\PaqueteController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -45,7 +46,10 @@ Route::middleware(["auth:sanctum","have_store"])->group(function(){
 	Route::apiResource('unidades', UnidadController::class)->parameter('unidades', 'unidad');
 	Route::apiResource('articulos', ArticuloController::class);
 	Route::put('articulos/{articulo}/impuestos', [ArticuloImpuestoController::class, 'sync']);
+	Route::apiResource('paquetes', PaqueteController::class)->only(['store','index']);
+	Route::get('paquetes/{paquete}/{articulo}', [PaqueteController::class, 'show']);
+	Route::put('paquetes/{paquete}/{articulo}', [PaqueteController::class, 'update']);
+	Route::patch('paquetes/{paquete}/{articulo}', [PaqueteController::class, 'update']);
+	Route::delete('paquetes/{paquete}/{articulo}', [PaqueteController::class, 'destroy']);
 });
 
-
-Route::apiResource('paquetes', App\Http\Controllers\PaqueteController::class);
