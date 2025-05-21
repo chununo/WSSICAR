@@ -14,6 +14,7 @@ use App\Http\Controllers\ArticuloImpuestoController;
 use App\Http\Controllers\PaqueteController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\ComboController;
+use App\Http\Controllers\GrupoArticuloController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -63,7 +64,10 @@ Route::middleware(["auth:sanctum","have_store"])->group(function(){
     Route::put('combos/{combo}/{grupo}', [ComboController::class, 'update']);
     Route::patch('combos/{combo}/{grupo}', [ComboController::class, 'update']);
     Route::delete('combos/{combo}/{grupo}', [ComboController::class, 'destroy']);
+	
+	Route::apiResource('grupoarticulos', GrupoArticuloController::class)->only(['index', 'store']);
+    Route::get('grupoarticulos/{gar_id}/{art_id}', [GrupoArticuloController::class, 'show']);
+    Route::put('grupoarticulos/{gar_id}/{art_id}', [GrupoArticuloController::class, 'update']);
+    Route::patch('grupoarticulos/{gar_id}/{art_id}', [GrupoArticuloController::class, 'update']);
+    Route::delete('grupoarticulos/{gar_id}/{art_id}', [GrupoArticuloController::class, 'destroy']);
 });
-
-
-

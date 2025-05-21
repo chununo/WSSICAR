@@ -1,0 +1,23 @@
+models:
+  GrupoArticulo:
+    store_id: id foreign
+    gar_id: integer comment:"ID local del grupo"
+    art_id: integer comment:"ID local del artículo"
+    grupo_id: id foreign:grupos nullable comment:"ID del grupo en el servidor"
+    articulo_id: id foreign:articulos nullable comment:"ID del artículo en el servidor"
+    costoExtra: decimal:20,2 default:0.00
+    status: integer default:1
+    cantidad: decimal:20,3 nullable
+    imprimir: boolean nullable
+    alias: string:100 nullable
+    validation_status: enum:valid,partial,invalid default:'valid'
+    validation_errors: json nullable
+
+    indexes:
+      - unique: store_id, gar_id, art_id
+      - index: grupo_id
+      - index: articulo_id
+
+controllers:
+  GrupoArticulo:
+    resource: api
