@@ -29,7 +29,6 @@ class PaqueteController extends Controller
     public function store(PaqueteStoreRequest $request): JsonResponse
     {
 		$data     = $request->validated();
-		Log::info("paquete",$data);
 		$storeId  = $data['store_id'];
 		$paquete_lc = $data['paquete'];
 		$articulo_lc = $data['articulo'];

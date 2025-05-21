@@ -1,13 +1,13 @@
 created:
-    - app/Http/Controllers/PaqueteController.php
-    - database/factories/PaqueteFactory.php
-    - database/migrations/2025_05_15_234708_create_paquetes_table.php
-    - app/Models/Paquete.php
-    - tests/Feature/Http/Controllers/PaqueteControllerTest.php
-    - app/Http/Requests/PaqueteStoreRequest.php
-    - app/Http/Requests/PaqueteUpdateRequest.php
-    - app/Http/Resources/PaqueteCollection.php
-    - app/Http/Resources/PaqueteResource.php
+    - app/Http/Controllers/GrupoController.php
+    - database/factories/GrupoFactory.php
+    - database/migrations/2025_05_21_175624_create_grupos_table.php
+    - app/Models/Grupo.php
+    - tests/Feature/Http/Controllers/GrupoControllerTest.php
+    - app/Http/Requests/GrupoStoreRequest.php
+    - app/Http/Requests/GrupoUpdateRequest.php
+    - app/Http/Resources/GrupoCollection.php
+    - app/Http/Resources/GrupoResource.php
 updated:
     - routes/api.php
 models:
@@ -21,3 +21,5 @@ models:
     Unidad: { store_id: 'biginteger unsigned', uni_id: integer, nombre: 'string:5', status: integer, clave: 'string:10 nullable' }
     User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
     Paquete: { store_id: 'id foreign', paquete: 'integer comment:"ID local del artículo que es paquete"', articulo: 'integer comment:"ID local del artículo contenido en el paquete"', paquete_id: 'id foreign:articulos nullable comment:"ID del servidor del artículo que es paquete"', articulo_id: 'id foreign:articulos nullable comment:"ID del servidor del artículo contenido"', cantidad: 'decimal:20,5', opcional: 'boolean default:0', incluido: 'boolean default:1', costoExtra: 'boolean default:0', porcion: 'decimal:20,3 nullable', grupo: 'integer nullable', maximo: 'integer nullable', minimo: 'integer nullable', multiplicador: 'integer nullable', validation_status: "enum:valid,partial,invalid default:'valid'", validation_errors: 'json nullable', indexes: [{ unique: 'store_id, paquete, articulo' }, { index: paquete_id }, { index: articulo_id }] }
+    Combo: { store_id: 'id foreign', combo: 'integer comment:"ID local del artículo que es combo"', grupo: 'integer comment:"ID local del grupo relacionado"', combo_id: 'id foreign:articulos nullable comment:"ID del servidor del artículo combo"', grupo_id: 'id foreign:grupos nullable comment:"ID del servidor del grupo"', cantidad: integer, opcional: 'boolean default:1', orden: 'integer default:-1', incluido: 'boolean default:0', status: 'integer default:1', validation_status: "enum:valid,partial,invalid default:'valid'", validation_errors: 'json nullable', indexes: [{ unique: 'store_id, combo, grupo' }, { index: combo_id }, { index: grupo_id }] }
+    Grupo: { store_id: 'id foreign', gar_id: integer, nombre: 'string:45', status: integer, padre: 'integer nullable', validation_status: "enum:valid,partial,invalid default:'valid'", validation_errors: 'json nullable', indexes: [{ unique: 'store_id, gar_id' }] }

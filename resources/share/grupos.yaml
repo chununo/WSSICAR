@@ -1,0 +1,14 @@
+models:
+  Grupo:
+    store_id: id foreign
+    gar_id: integer
+    nombre: string:45
+    status: integer
+    padre: integer nullable
+
+    indexes:
+      - unique: store_id, gar_id
+
+controllers:
+  Grupo:
+    resource: api

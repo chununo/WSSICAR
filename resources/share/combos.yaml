@@ -1,0 +1,23 @@
+models:
+  Combo:
+    store_id: id foreign
+    combo: integer comment:"ID local del artículo que es combo"
+    grupo: integer comment:"ID local del grupo relacionado"
+    combo_id: id foreign:articulos nullable comment:"ID del servidor del artículo combo"
+    grupo_id: id foreign:grupos nullable comment:"ID del servidor del grupo"
+    cantidad: integer
+    opcional: boolean default:1
+    orden: integer default:-1
+    incluido: boolean default:0
+    status: integer default:1
+    validation_status: enum:valid,partial,invalid default:'valid'
+    validation_errors: json nullable
+
+    indexes:
+      - unique: store_id, combo, grupo
+      - index: combo_id
+      - index: grupo_id
+
+controllers:
+  Combo:
+    resource: api
