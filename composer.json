@@ -71,6 +71,9 @@
             "php-http/discovery": true
         }
     },
+	"files": [
+		"app/Helpers/ServiceResponse.php"
+	],
     "minimum-stability": "stable",
     "prefer-stable": true
 }

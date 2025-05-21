@@ -9,7 +9,8 @@ use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Throwable;
+use App\Helpers\ServiceResponse;
+use Illuminate\Foundation\Bootstrap\HandleExceptions;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -30,66 +31,63 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
 		
         $exceptions->renderable(function (Throwable $e, $request) {
-			// Validaciones (422)
+
 			if ($e instanceof ValidationException) {
-				return response()->json([
-					'data'    => null,
-					'success' => false,
-					'message' => 'Error de validación.',
-					'errors'  => $e->errors(),
-				], 422);
+				return ServiceResponse::error(
+					'Error de validación.',
+					$e->errors(),
+					422
+				);
 			}
 
-			// No autenticado (401)
 			if ($e instanceof AuthenticationException) {
-				return response()->json([
-					'data'    => null,
-					'success' => false,
-					'message' => 'No autenticado.',
-				], 401);
+				return ServiceResponse::error(
+					'No autenticado.',
+					['auth' => ['Debes iniciar sesión.']],
+					401
+				);
 			}
 
-			// Permiso denegado (403)
 			if ($e instanceof HttpException && $e->getStatusCode() === 403) {
-				return response()->json([
-					'data'    => null,
-					'success' => false,
-					'message' => 'Permiso denegado.',
-				], 403);
+				return ServiceResponse::error(
+					'Permiso denegado.',
+					['auth' => ['No tienes permisos para esta acción.']],
+					403
+				);
 			}
 
-			// Recurso no encontrado (404)
 			if ($e instanceof ModelNotFoundException) {
-				return response()->json([
-					'data'    => null,
-					'success' => false,
-					'message' => class_basename($e->getModel()) . ' no encontrado.',
-				], 404);
-			}
-
-			// Error SQL (duplicados, claves foráneas, etc)
-			if ($e instanceof QueryException) {
-				return response()->json([
-					'data'    => null,
-					'success' => false,
-					'message' => 'Error de base de datos: ' . $e->getMessage(),
-				], 500);
+				return ServiceResponse::error(
+					class_basename($e->getModel()) . ' no encontrado.',
+					['modelo' => [$e->getMessage()]],
+					404
+				);
 			}
 
 			if ($e instanceof NotFoundHttpException) {
-				return response()->json([
-					'data'    => null,
-					'success' => false,
-					'message' => 'Ruta o recurso no encontrado.',
-					'error' => $e->getMessage()
-				], 404);
+				return ServiceResponse::error(
+					'Ruta o recurso no encontrado.',
+					['ruta' => [$e->getMessage()]],
+					404
+				);
 			}
 
-			// Si no se reconoció nada anterior: error genérico
-			return response()->json([
-				'data'    => null,
-				'success' => false,
-				'message' => 'Error del servidor.',
-			], 500);
+			if ($e instanceof QueryException) {
+				return ServiceResponse::error(
+					'Error de base de datos.',
+					['sql' => [$e->getMessage()]],
+					500
+				);
+			}
+
+			if ($e instanceof HandleExceptions) {
+				return ServiceResponse::error(
+					'Error de base de datos.',
+					['sql' => [$e->getMessage()]],
+					500
+				);
+			}
+			return ServiceResponse::error("[SERVER::ERROR] {$e->getMessage()}",$e->getTrace()); // genérico: 500
 		});
+
     })->create();

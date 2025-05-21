@@ -9,25 +9,24 @@ use App\Http\Resources\PaqueteResource;
 use App\Models\Paquete;
 use App\Models\Articulo;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use App\Helpers\ServiceResponse;
 
 class PaqueteController extends Controller
 {
-    public function index(Request $request): PaqueteCollection
+    public function index(Request $request): JsonResponse
     {
         if ($request->has('store_id')) {
 			$paquetes = Paquete::where('store_id', $request->input('store_id'))->get();
 		} else {	
 			$paquetes = Paquete::all();
 		}
-        return new PaqueteCollection($paquetes);
+		return ServiceResponse::success("Lista de paquetes ({$paquetes->count()})", new PaqueteCollection($paquetes));
     }
 
-    public function store(PaqueteStoreRequest $request): PaqueteResource
+    public function store(PaqueteStoreRequest $request): JsonResponse
     {
 		$data     = $request->validated();
 		Log::info("paquete",$data);
@@ -62,12 +61,11 @@ class PaqueteController extends Controller
 		$data['validation_status'] = $status;
         $data['validation_errors'] = $errors ?: null;
 		$paquete = Paquete::create($data);
-		PaqueteResource::$customMessage = "Paquete agregado";
 
-        return new PaqueteResource($paquete);
+        return ServiceResponse::success("Paquete agregado id {$paquete->paquete} con el artículo {$paquete->articulo} store {$paquete->store_id}",new PaqueteResource($paquete));
     }
 
-    public function show(Request $request, int $paquete, int $articulo): PaqueteResource
+    public function show(Request $request, int $paquete, int $articulo): JsonResponse
     {
 		/** @var \App\Models\User $user */
 		$user = Auth::user();
@@ -78,10 +76,10 @@ class PaqueteController extends Controller
 			->where('articulo', $articulo)
 			->firstOrFail();
 
-		return new PaqueteResource($paquete);
+		return ServiceResponse::success("Paquete id {$paquete->paquete} con el artículo {$paquete->articulo} store {$paquete->store_id}",new PaqueteResource($paquete));
     }
 
-    public function update(PaqueteUpdateRequest $request, int $paquete, int $articulo): PaqueteResource
+    public function update(PaqueteUpdateRequest $request, int $paquete, int $articulo): JsonResponse
 	{
 		/** @var \App\Models\User $user */
 		$user = Auth::user();
@@ -122,47 +120,32 @@ class PaqueteController extends Controller
 
 		$paqueteRow->update($data);
 
-		return new PaqueteResource($paqueteRow);
+		return ServiceResponse::success("Paquete id {$paqueteRow->paquete} con el artículo {$paqueteRow->articulo} store {$paqueteRow->store_id}",new PaqueteResource($paqueteRow));
 	}
 
     public function destroy(Request $request, int $paquete, int $articulo): JsonResponse
-{
-    /** @var \App\Models\User $user */
-    $user = Auth::user();
+	{
+		/** @var \App\Models\User $user */
+		$user = Auth::user();
 
-    $storeId = $user->store_id ?? $request->query('store_id');
+		$storeId = $user->store_id ?? $request->query('store_id');
 
-	if (! $storeId) {
-        return response()->json([
-            'success' => false,
-            'message' => 'No se pudo determinar la tienda (store_id).',
-            'errors' => ['store_id' => ['Debes iniciar sesión o enviar store_id como administrador.']],
-            'data' => null
-        ], 422);
-    }
+		$registro = Paquete::where('store_id', $storeId)
+			->where('paquete', $paquete)
+			->where('articulo', $articulo)
+			->first();
 
-    $registro = Paquete::where('store_id', $storeId)
-        ->where('paquete', $paquete)
-        ->where('articulo', $articulo)
-        ->first();
+		if (! $registro) {
+			return ServiceResponse::error("No se encontró paquete con id {$registro->paquete} articulo {$registro->articulo} store {$registro->store}",[],404);
+		}
 
-    if (! $registro) {
-        return response()->json([
-            'success' => false,
-            'message' => "Paquete con artículo {$articulo} no encontrado.",
-            'errors' => ['paquete' => ["No se encontró el paquete {$paquete} con artículo {$articulo}."]],
-            'data' => null
-        ], 404);
-    }
+		try {
+			$registroResource = new PaqueteResource($registro);
+			$registro->delete();
+			return ServiceResponse::success("Paquete eliminado id {$registroResource->paquete} con el artículo {$registroResource->articulo} store {$registroResource->store_id}",new PaqueteResource($registroResource));
+		} catch (\Throwable $th) {
+			return ServiceResponse::error("[SERVER::ERROR]",[$th->getTrace()],404);
+		}
 
-	$registroResource = new \App\Http\Resources\PaqueteResource($registro);
-
-    $registro->delete();
-
-    return response()->json([
-        'success' => true,
-        'message' => 'Paquete eliminado correctamente.',
-        'data' => $registroResource
-    ], 200);
-}
+	}
 }

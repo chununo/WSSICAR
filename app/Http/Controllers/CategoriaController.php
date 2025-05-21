@@ -8,23 +8,23 @@ use App\Http\Resources\CategoriaCollection;
 use App\Http\Resources\CategoriaResource;
 use App\Models\Categoria;
 use App\Models\Departamento;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Helpers\ServiceResponse;
 
 class CategoriaController extends Controller
 {
-    public function index(Request $request): CategoriaCollection
+    public function index(Request $request): JsonResponse
     {	
 		if ($request->has('store_id')) {
 			$categoria = Categoria::where('store_id', $request->input('store_id'))->get();
 		} else {	
 			$categoria = Categoria::all();
 		}
-
-        return new CategoriaCollection($categoria);
+		return ServiceResponse::success("Lista de categorias ({$categoria->count()})", new CategoriaCollection($categoria));
     }
 
-    public function store(CategoriaStoreRequest $request): CategoriaResource
+    public function store(CategoriaStoreRequest $request): JsonResponse
     {
         $data     = $request->validated();
 		$storeId  = $data['store_id'];
@@ -42,35 +42,22 @@ class CategoriaController extends Controller
 			$errors['dep_id'] = ["El departamento {$depLocal} no existe en la tienda."];
 			$status = 'partial';
 		}
+
+		$data['departamento_id'] = $fkDep;
+		$data['validation_status'] = $status;
+		$data['validation_errors'] = $errors;
 		
-		$categoria = Categoria::create([
-			'store_id'         => $storeId,
-			'cat_id'           => $data['cat_id'],
-			'nombre'           => $data['nombre'],
-			'system'           => $data['system'],
-			'status'           => $data['status'],
-			'dep_id'           => $depLocal,
-			'departamento_id'  => $fkDep,
-			'validation_status'=> $status,
-			'validation_errors'=> $errors ?: null,
-			// …
-		]);
+		$categoria = Categoria::create($data);
 		
-		$resource = (new CategoriaResource($categoria))
-			->additional([
-				'status'   => $status,
-				'warnings' => $errors,
-			]);
-		
-		return $resource;
+		return ServiceResponse::success("Categoría agregada id {$categoria->cat_id} store {$categoria->store_id}",new CategoriaResource($categoria));
     }
 
-    public function show(Request $request, Categoria $categoria): CategoriaResource
+    public function show(Request $request, Categoria $categoria): JsonResponse
     {
-        return new CategoriaResource($categoria);
+        return ServiceResponse::success("Categoría id {$categoria->cat_id} store {$categoria->store_id}",new CategoriaResource($categoria));
     }
 
-    public function update(CategoriaUpdateRequest $request, Categoria $categoria): CategoriaResource
+    public function update(CategoriaUpdateRequest $request, Categoria $categoria): JsonResponse
     {
 		$data     = $request->validated();
 		$storeId  = $categoria->store_id;
@@ -107,17 +94,17 @@ class CategoriaController extends Controller
 		$categoria->update($data);
 	
 		// Devolvemos el recurso con warnings si los hay
-		return (new CategoriaResource($categoria->refresh()))
-			->additional([
-				'status'   => $status,
-				'warnings' => $errors,
-			]);
+		return ServiceResponse::success("Categoría actualizada id {$categoria->cat_id} store {$categoria->store_id}",new CategoriaResource($categoria->refresh()));
     }
 
-    public function destroy(Request $request, Categoria $categoria): Response
+    public function destroy(Request $request, Categoria $categoria): JsonResponse
     {
-        $categoria->delete();
-
-        return response()->noContent();
+		try {
+			$registroResource = new CategoriaResource($categoria);
+			$categoria->delete();
+			return ServiceResponse::success("Categoría eliminada id {$registroResource->cat_id} store {$registroResource->store_id}.", $registroResource);
+		} catch (\Throwable $th) {
+			return ServiceResponse::error('No se encontró categoría.',$th->getTrace(),404);
+		}
     }
 }

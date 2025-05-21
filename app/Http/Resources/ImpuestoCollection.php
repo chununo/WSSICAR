@@ -12,8 +12,6 @@ class ImpuestoCollection extends BaseCollection
      */
     public function toArray(Request $request): array
     {
-        return [
-            'data' => $this->collection,
-        ];
+        return $this->collection->toArray();
     }
 }

@@ -6,8 +6,8 @@ use App\Models\ArticuloImpuesto;
 use App\Models\Articulo;
 use App\Models\Impuesto;
 use Illuminate\Http\Request;
-use App\Http\Requests\ArticuloImpuestoSyncRequest;
 use Illuminate\Http\JsonResponse;
+use App\Helpers\ServiceResponse;
 
 class ArticuloImpuestoController extends Controller
 {
@@ -96,10 +96,7 @@ class ArticuloImpuestoController extends Controller
 
 		$result = $articulo->impuestos()->sync($pivotData);
 
-		return response()->json([
-			'message' => 'Sincronización completa.',
-			'result'  => $result,
-		]);
+		return ServiceResponse::success("Articulos-Impuestos agregados exitosamente",$pivotData);
 	}
 
 }
