@@ -44,7 +44,6 @@ class HorarioPromoController extends Controller
 
     public function update(HorarioPromoUpdateRequest $request, HorarioPromo $horarioPromo): JsonResponse
     {
-		Log::info("Horario promocional ID {$horarioPromo->hor_id} tienda {$horarioPromo->store_id} actualizado por el usuario {$request->user()->id}");
         $horarioPromo->update($request->validated());
 
         return ServiceResponse::success(
