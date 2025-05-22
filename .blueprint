@@ -1,13 +1,13 @@
 created:
-    - app/Http/Controllers/GrupoArticuloController.php
-    - database/factories/GrupoArticuloFactory.php
-    - database/migrations/2025_05_21_191816_create_grupo_articulos_table.php
-    - app/Models/GrupoArticulo.php
-    - tests/Feature/Http/Controllers/GrupoArticuloControllerTest.php
-    - app/Http/Requests/GrupoArticuloStoreRequest.php
-    - app/Http/Requests/GrupoArticuloUpdateRequest.php
-    - app/Http/Resources/GrupoArticuloCollection.php
-    - app/Http/Resources/GrupoArticuloResource.php
+    - app/Http/Controllers/HorarioPromoController.php
+    - database/factories/HorarioPromoFactory.php
+    - database/migrations/2025_05_21_210943_create_horario_promos_table.php
+    - app/Models/HorarioPromo.php
+    - tests/Feature/Http/Controllers/HorarioPromoControllerTest.php
+    - app/Http/Requests/HorarioPromoStoreRequest.php
+    - app/Http/Requests/HorarioPromoUpdateRequest.php
+    - app/Http/Resources/HorarioPromoCollection.php
+    - app/Http/Resources/HorarioPromoResource.php
 updated:
     - routes/api.php
 models:
@@ -24,3 +24,4 @@ models:
     Combo: { store_id: 'id foreign', combo: 'integer comment:"ID local del artículo que es combo"', grupo: 'integer comment:"ID local del grupo relacionado"', combo_id: 'id foreign:articulos nullable comment:"ID del servidor del artículo combo"', grupo_id: 'id foreign:grupos nullable comment:"ID del servidor del grupo"', cantidad: integer, opcional: 'boolean default:1', orden: 'integer default:-1', incluido: 'boolean default:0', status: 'integer default:1', validation_status: "enum:valid,partial,invalid default:'valid'", validation_errors: 'json nullable', indexes: [{ unique: 'store_id, combo, grupo' }, { index: combo_id }, { index: grupo_id }] }
     Grupo: { store_id: 'id foreign', gar_id: integer, nombre: 'string:45', status: integer, padre: 'integer nullable', validation_status: "enum:valid,partial,invalid default:'valid'", validation_errors: 'json nullable', indexes: [{ unique: 'store_id, gar_id' }] }
     GrupoArticulo: { store_id: 'id foreign', gar_id: 'integer comment:"ID local del grupo"', art_id: 'integer comment:"ID local del artículo"', grupo_id: 'id foreign:grupos nullable comment:"ID del grupo en el servidor"', articulo_id: 'id foreign:articulos nullable comment:"ID del artículo en el servidor"', costoExtra: 'decimal:20,2 default:0.00', status: 'integer default:1', cantidad: 'decimal:20,3 nullable', imprimir: 'boolean nullable', alias: 'string:100 nullable', validation_status: "enum:valid,partial,invalid default:'valid'", validation_errors: 'json nullable', indexes: [{ unique: 'store_id, gar_id, art_id' }, { index: grupo_id }, { index: articulo_id }] }
+    HorarioPromo: { store_id: 'id foreign', hor_id: integer, nombre: 'string:45', lunes: boolean, iniLun: 'time nullable', finLun: 'time nullable', martes: boolean, iniMar: 'time nullable', finMar: 'time nullable', miercoles: boolean, iniMie: 'time nullable', finMie: 'time nullable', jueves: boolean, iniJue: 'time nullable', finJue: 'time nullable', viernes: boolean, iniVie: 'time nullable', finVie: 'time nullable', sabado: boolean, iniSab: 'time nullable', finSab: 'time nullable', domingo: boolean, iniDom: 'time nullable', finDom: 'time nullable', status: 'integer default:1', indexes: [{ unique: 'store_id, hor_id' }] }

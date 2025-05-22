@@ -1,0 +1,34 @@
+models:
+  HorarioPromo:
+    store_id: id foreign
+    hor_id: integer
+    nombre: string:45
+    lunes: boolean
+    iniLun: time nullable
+    finLun: time nullable
+    martes: boolean
+    iniMar: time nullable
+    finMar: time nullable
+    miercoles: boolean
+    iniMie: time nullable
+    finMie: time nullable
+    jueves: boolean
+    iniJue: time nullable
+    finJue: time nullable
+    viernes: boolean
+    iniVie: time nullable
+    finVie: time nullable
+    sabado: boolean
+    iniSab: time nullable
+    finSab: time nullable
+    domingo: boolean
+    iniDom: time nullable
+    finDom: time nullable
+    status: integer default:1
+
+    indexes:
+      - unique: store_id, hor_id
+
+controllers:
+  HorarioPromo:
+    resource: api

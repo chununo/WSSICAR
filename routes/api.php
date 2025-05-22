@@ -15,6 +15,7 @@ use App\Http\Controllers\PaqueteController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\ComboController;
 use App\Http\Controllers\GrupoArticuloController;
+use App\Http\Controllers\HorarioPromoController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -70,4 +71,8 @@ Route::middleware(["auth:sanctum","have_store"])->group(function(){
     Route::put('grupoarticulos/{gar_id}/{art_id}', [GrupoArticuloController::class, 'update']);
     Route::patch('grupoarticulos/{gar_id}/{art_id}', [GrupoArticuloController::class, 'update']);
     Route::delete('grupoarticulos/{gar_id}/{art_id}', [GrupoArticuloController::class, 'destroy']);
+
+	Route::apiResource('horariopromos', HorarioPromoController::class)->parameter('horariopromos' ,'horarioPromo');
 });
+
+
