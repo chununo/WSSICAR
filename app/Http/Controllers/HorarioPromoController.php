@@ -10,7 +10,6 @@ use App\Models\HorarioPromo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Helpers\ServiceResponse;
-use Illuminate\Support\Facades\Log;
 
 class HorarioPromoController extends Controller
 {
