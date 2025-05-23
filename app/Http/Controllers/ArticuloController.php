@@ -84,7 +84,7 @@ class ArticuloController extends Controller
     public function show(Request $request, Articulo $articulo): JsonResponse
     {
 		
-        return ServiceResponse::success("Articulo encontrado ({$articulo->id})",new ArticuloResource($articulo));
+        return ServiceResponse::success("Articulo encontrado ({$articulo->art_id})",new ArticuloResource($articulo));
     }
 
     public function update(ArticuloUpdateRequest $request, Articulo $articulo): JsonResponse

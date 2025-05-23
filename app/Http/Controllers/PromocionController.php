@@ -87,33 +87,6 @@ class PromocionController extends Controller
         return ServiceResponse::success("Promoción actualizada correctamente.", new PromocionResource($promocion));
     }
 
-	public function changeStatus(Request $request, int $pro_id): JsonResponse
-{
-    $storeId = $request->store_id;
-
-    $promocion = Promocion::where('store_id', $storeId)
-        ->where('pro_id', $pro_id)
-        ->first();
-
-    if (! $promocion) {
-        return ServiceResponse::error("Promoción con ID {$pro_id} no encontrada en tienda {$storeId}.", [], 404);
-    }
-
-    // Determinar si es enable o disable desde la URL
-    $status = str_contains($request->path(), '/enable') ? 1 : -1;
-
-    $promocion->status = $status;
-    $promocion->save();
-
-    $accion = $status === 1 ? 'activada' : 'desactivada';
-
-    return ServiceResponse::success(
-        "Promoción ID {$pro_id} {$accion} correctamente.",
-        new PromocionResource($promocion)
-    );
-}
-
-
     public function destroy(Request $request, Promocion $promocion): JsonResponse
     {
         $resource = new PromocionResource($promocion);

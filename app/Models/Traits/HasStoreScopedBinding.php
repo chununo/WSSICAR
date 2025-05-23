@@ -23,11 +23,11 @@ trait HasStoreScopedBinding
             $query->where('store_id', $user->store_id);
         } elseif ($storeId = request('store_id')) {
             $query->where('store_id', $storeId);
-        } elseif ($query->count() > 1) {
-            throw ValidationException::withMessages([
-                'store_id' => ['Indica la sucursal (store_id).'],
-            ]);
-        }
+        } else {
+			throw ValidationException::withMessages([
+				'store_id' => ['Debes indicar la sucursal (store_id).'],
+			]);
+		}
 
         return $query->firstOrFail();
     }

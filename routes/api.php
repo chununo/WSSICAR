@@ -45,38 +45,42 @@ Route::middleware(["auth:sanctum","is_admin"])->group(function(){
 
 // Autorizado y con tienda
 Route::middleware(["auth:sanctum","have_store"])->group(function(){
+	// Impuestos
 	Route::apiResource('impuestos', ImpuestoController::class);
+	// Departamentos
 	Route::apiResource('departamentos', DepartamentoController::class);
+	// Categorias
 	Route::apiResource('categorias', CategoriaController::class);
+	// Unidades
 	Route::apiResource('unidades', UnidadController::class)->parameter('unidades', 'unidad');
+	// Horarios
+	Route::apiResource('horariopromos', HorarioPromoController::class)->parameter('horariopromos' ,'horarioPromo');
+	// Grupos
+	Route::apiResource('grupos', GrupoController::class);
+	// Promociones
+	Route::apiResource('promociones', PromocionController::class)->parameter('promociones' ,'promocion');
+	// Artículos
 	Route::apiResource('articulos', ArticuloController::class);
-	
 	Route::put('articulos/{articulo}/impuestos', [ArticuloImpuestoController::class, 'sync']);
-
+	// Paquetes
 	Route::apiResource('paquetes', PaqueteController::class)->only(['store','index']);
 	Route::get('paquetes/{paquete}/{articulo}', [PaqueteController::class, 'show']);
 	Route::put('paquetes/{paquete}/{articulo}', [PaqueteController::class, 'update']);
 	Route::patch('paquetes/{paquete}/{articulo}', [PaqueteController::class, 'update']);
 	Route::delete('paquetes/{paquete}/{articulo}', [PaqueteController::class, 'destroy']);
-	
-	Route::apiResource('grupos', GrupoController::class);
-
+	// Combos
 	Route::apiResource('combos', ComboController::class)->except(['show', 'update', 'destroy']);
 	Route::get('combos/{combo}/{grupo}', [ComboController::class, 'show']);
     Route::put('combos/{combo}/{grupo}', [ComboController::class, 'update']);
     Route::patch('combos/{combo}/{grupo}', [ComboController::class, 'update']);
     Route::delete('combos/{combo}/{grupo}', [ComboController::class, 'destroy']);
-	
+	// Grupos de Artículos
 	Route::apiResource('grupoarticulos', GrupoArticuloController::class)->only(['index', 'store']);
     Route::get('grupoarticulos/{gar_id}/{art_id}', [GrupoArticuloController::class, 'show']);
     Route::put('grupoarticulos/{gar_id}/{art_id}', [GrupoArticuloController::class, 'update']);
     Route::patch('grupoarticulos/{gar_id}/{art_id}', [GrupoArticuloController::class, 'update']);
     Route::delete('grupoarticulos/{gar_id}/{art_id}', [GrupoArticuloController::class, 'destroy']);
 
-	Route::apiResource('horariopromos', HorarioPromoController::class)->parameter('horariopromos' ,'horarioPromo');
-	Route::apiResource('promociones', PromocionController::class)->parameter('promociones' ,'promocion');
-	Route::patch('promociones/{pro_id}/enable', [PromocionController::class, 'changeStatus']);
-	Route::patch('promociones/{pro_id}/disable', [PromocionController::class, 'changeStatus']);
 
 
 });
