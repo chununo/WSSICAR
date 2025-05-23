@@ -16,6 +16,7 @@ use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\ComboController;
 use App\Http\Controllers\GrupoArticuloController;
 use App\Http\Controllers\HorarioPromoController;
+use App\Http\Controllers\PromocionController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -73,6 +74,9 @@ Route::middleware(["auth:sanctum","have_store"])->group(function(){
     Route::delete('grupoarticulos/{gar_id}/{art_id}', [GrupoArticuloController::class, 'destroy']);
 
 	Route::apiResource('horariopromos', HorarioPromoController::class)->parameter('horariopromos' ,'horarioPromo');
+	Route::apiResource('promociones', PromocionController::class)->parameter('promociones' ,'promocion');
+	Route::patch('promociones/{pro_id}/enable', [PromocionController::class, 'changeStatus']);
+	Route::patch('promociones/{pro_id}/disable', [PromocionController::class, 'changeStatus']);
+
+
 });
-
-

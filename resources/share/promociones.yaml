@@ -1,0 +1,36 @@
+models:
+  Promocion:
+    store_id: id foreign
+    pro_id: integer unique comment:"ID local de la promoción"
+    nombre: string:255
+    fechaIni: date
+    fechaFin: date
+    descuento: decimal:20,2 nullable
+    pago: integer nullable
+    salida: integer nullable
+    precio: integer nullable
+    condicion: boolean default:0
+    totalMin: decimal:20,2 nullable
+    piezasMin: integer nullable
+    piezasReq: integer nullable
+    piezasPromo: integer nullable
+    cascada: boolean default:0
+    status: integer
+    sincronizar: boolean
+    mixto: boolean default:0
+    mostrarComensal: boolean default:1
+    artReq: boolean default:0
+    artReqMixto: boolean default:0
+    clientes: boolean default:1
+    hor_id: integer nullable comment:"ID local del horario promocional"
+    horariopromo_id: id foreign:horariopromos nullable comment:"ID del servidor del horario promocional"
+    validation_status: enum:valid,partial,invalid default:'valid'
+    validation_errors: json nullable
+
+    indexes:
+      - unique: store_id, pro_id
+      - index: horariopromo_id
+
+controllers:
+  Promocion:
+    resource: api
