@@ -1,0 +1,21 @@
+models:
+  Moneda:
+    store_id: id foreign
+    mon_id: integer comment:"ID local de la moneda"
+    moneda: string:45
+    abr: string:5
+    tipoCambio: decimal:20,6
+    singPlur: string:90
+    caracter: string:5
+    mn: boolean default:0
+    img16: binary nullable
+    img24: binary nullable
+    img32: binary nullable
+    status: integer
+
+    indexes:
+      - unique: store_id, mon_id
+      
+controllers:
+  Moneda:
+    resource: api

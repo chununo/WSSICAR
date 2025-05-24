@@ -18,6 +18,8 @@ use App\Http\Controllers\GrupoArticuloController;
 use App\Http\Controllers\HorarioPromoController;
 use App\Http\Controllers\PromocionController;
 use App\Http\Controllers\DetallepromoController;
+use App\Http\Controllers\CajaController;
+use App\Http\Controllers\MonedaController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -89,5 +91,9 @@ Route::middleware(["auth:sanctum","have_store"])->group(function(){
 
 Route::middleware(["auth:sanctum","have_store"])->group(function(){
 	// Cajas
-	Route::apiResource('cajas', App\Http\Controllers\CajaController::class);
+	Route::apiResource('cajas', CajaController::class);
+	// Controlador
+	Route::apiResource('monedas', MonedaController::class);
 });
+
+

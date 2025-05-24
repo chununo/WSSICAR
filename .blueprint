@@ -1,13 +1,13 @@
 created:
-    - app/Http/Controllers/CajaController.php
-    - database/factories/CajaFactory.php
-    - database/migrations/2025_05_24_011136_create_cajas_table.php
-    - app/Models/Caja.php
-    - tests/Feature/Http/Controllers/CajaControllerTest.php
-    - app/Http/Requests/CajaStoreRequest.php
-    - app/Http/Requests/CajaUpdateRequest.php
-    - app/Http/Resources/CajaCollection.php
-    - app/Http/Resources/CajaResource.php
+    - app/Http/Controllers/MonedaController.php
+    - database/factories/MonedaFactory.php
+    - database/migrations/2025_05_24_015201_create_monedas_table.php
+    - app/Models/Moneda.php
+    - tests/Feature/Http/Controllers/MonedaControllerTest.php
+    - app/Http/Requests/MonedaStoreRequest.php
+    - app/Http/Requests/MonedaUpdateRequest.php
+    - app/Http/Resources/MonedaCollection.php
+    - app/Http/Resources/MonedaResource.php
 updated:
     - routes/api.php
 models:
@@ -28,3 +28,4 @@ models:
     Promocion: { store_id: 'id foreign', pro_id: 'integer unique comment:"ID local de la promoción"', nombre: 'string:255', fechaIni: date, fechaFin: date, descuento: 'decimal:20,2 nullable', pago: 'integer nullable', salida: 'integer nullable', precio: 'integer nullable', condicion: 'boolean default:0', totalMin: 'decimal:20,2 nullable', piezasMin: 'integer nullable', piezasReq: 'integer nullable', piezasPromo: 'integer nullable', cascada: 'boolean default:0', status: integer, sincronizar: boolean, mixto: 'boolean default:0', mostrarComensal: 'boolean default:1', artReq: 'boolean default:0', artReqMixto: 'boolean default:0', clientes: 'boolean default:1', hor_id: 'integer nullable comment:"ID local del horario promocional"', horariopromo_id: 'id foreign:horariopromos nullable comment:"ID del servidor del horario promocional"', validation_status: "enum:valid,partial,invalid default:'valid'", validation_errors: 'json nullable', indexes: [{ unique: 'store_id, pro_id' }, { index: horariopromo_id }] }
     Detallepromo: { store_id: 'id foreign', dpr_id: "integer comment:'ID local del detalle de promoción'", pro_id: "integer comment:'ID local de la promoción'", promocion_id: "id foreign:promociones nullable comment:'ID servidor de la promoción'", art_id: "integer nullable comment:'ID local del artículo'", articulo_id: "id foreign:articulos nullable comment:'ID servidor del artículo'", cat_id: "integer nullable comment:'ID local de la categoría'", categoria_id: "id foreign:categorias nullable comment:'ID servidor de la categoría'", dep_id: "integer nullable comment:'ID local del departamento'", departamento_id: "id foreign:departamentos nullable comment:'ID servidor del departamento'", tipo: 'integer default:1', status: 'integer default:1', validation_status: "enum:valid,partial,invalid default:'valid'", validation_errors: 'json nullable', indexes: [{ unique: 'store_id, dpr_id' }, { index: promocion_id }, { index: articulo_id }, { index: categoria_id }, { index: departamento_id }] }
     Caja: { store_id: 'id foreign', caj_id: 'integer unique comment:"ID local de la caja"', nombre: 'string:45 unique', total: 'decimal:20,2', status: integer }
+    Moneda: { store_id: 'id foreign', mon_id: 'integer comment:"ID local de la moneda"', moneda: 'string:45', abr: 'string:5', tipoCambio: 'decimal:20,6', singPlur: 'string:90', caracter: 'string:5', mn: 'boolean default:0', img16: 'binary nullable', img24: 'binary nullable', img32: 'binary nullable', status: integer, indexes: [{ unique: 'store_id, mon_id' }] }
