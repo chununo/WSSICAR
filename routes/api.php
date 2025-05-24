@@ -86,3 +86,8 @@ Route::middleware(["auth:sanctum","have_store"])->group(function(){
 
 });
 
+
+Route::middleware(["auth:sanctum","have_store"])->group(function(){
+	// Cajas
+	Route::apiResource('cajas', App\Http\Controllers\CajaController::class);
+});

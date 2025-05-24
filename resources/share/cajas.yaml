@@ -1,0 +1,11 @@
+models:
+  Caja:
+    store_id: id foreign
+    caj_id: integer comment:"ID local de la caja"
+    nombre: string:45
+    total: decimal:20,2
+    status: integer
+
+controllers:
+  Caja:
+    resource: api
