@@ -1,0 +1,27 @@
+models:
+  Detallepromo:
+    store_id: id foreign
+    dpr_id: integer comment:'ID local del detalle de promoción'
+    pro_id: integer comment:'ID local de la promoción'
+    promocion_id: id foreign:promociones nullable comment:'ID servidor de la promoción'
+    art_id: integer nullable comment:'ID local del artículo'
+    articulo_id: id foreign:articulos nullable comment:'ID servidor del artículo'
+    cat_id: integer nullable comment:'ID local de la categoría'
+    categoria_id: id foreign:categorias nullable comment:'ID servidor de la categoría'
+    dep_id: integer nullable comment:'ID local del departamento'
+    departamento_id: id foreign:departamentos nullable comment:'ID servidor del departamento'
+    tipo: integer default:1
+    status: integer default:1
+    validation_status: enum:valid,partial,invalid default:'valid'
+    validation_errors: json nullable
+
+    indexes:
+      - unique: store_id, dpr_id
+      - index: promocion_id
+      - index: articulo_id
+      - index: categoria_id
+      - index: departamento_id
+
+controllers:
+  Detallepromo:
+    resource: api

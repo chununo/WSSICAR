@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Articulo;
-use App\Models\Categorium;
+use App\Models\Categoria;
 use App\Models\Store;
-use App\Models\Unidade;
+use App\Models\Unidad;
 
 class ArticuloFactory extends Factory
 {
@@ -70,11 +70,11 @@ class ArticuloFactory extends Factory
             'claveProdServ' => fake()->regexify('[A-Za-z0-9]{15}'),
             'status' => fake()->numberBetween(-10000, 10000),
             'unidadCompra' => fake()->numberBetween(-10000, 10000),
-            'unidadCompra_id' => Unidade::factory(),
+            'unidadCompra_id' => Unidad::factory(),
             'unidadVenta' => fake()->numberBetween(-10000, 10000),
-            'unidadVenta_id' => Unidade::factory(),
+            'unidadVenta_id' => Unidad::factory(),
             'cat_id' => fake()->numberBetween(-10000, 10000),
-            'categoria_id' => Categorium::factory(),
+            'categoria_id' => Categoria::factory(),
             'srp_id' => fake()->numberBetween(-10000, 10000),
             'mem_id' => fake()->numberBetween(-10000, 10000),
             'diasVigencia' => fake()->numberBetween(-10000, 10000),

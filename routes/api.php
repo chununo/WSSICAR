@@ -17,6 +17,7 @@ use App\Http\Controllers\ComboController;
 use App\Http\Controllers\GrupoArticuloController;
 use App\Http\Controllers\HorarioPromoController;
 use App\Http\Controllers\PromocionController;
+use App\Http\Controllers\DetallepromoController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -43,7 +44,7 @@ Route::middleware(["auth:sanctum","is_admin"])->group(function(){
     Route::get("storesusers", [StoreUserController::class, "index"]);
 });
 
-// Autorizado y con tienda
+// Articulos y sus relaciones
 Route::middleware(["auth:sanctum","have_store"])->group(function(){
 	// Impuestos
 	Route::apiResource('impuestos', ImpuestoController::class);
@@ -59,6 +60,8 @@ Route::middleware(["auth:sanctum","have_store"])->group(function(){
 	Route::apiResource('grupos', GrupoController::class);
 	// Promociones
 	Route::apiResource('promociones', PromocionController::class)->parameter('promociones' ,'promocion');
+	// Detalle de promociones
+	Route::apiResource('detallepromos', DetallepromoController::class);
 	// Artículos
 	Route::apiResource('articulos', ArticuloController::class);
 	Route::put('articulos/{articulo}/impuestos', [ArticuloImpuestoController::class, 'sync']);
@@ -81,6 +84,5 @@ Route::middleware(["auth:sanctum","have_store"])->group(function(){
     Route::patch('grupoarticulos/{gar_id}/{art_id}', [GrupoArticuloController::class, 'update']);
     Route::delete('grupoarticulos/{gar_id}/{art_id}', [GrupoArticuloController::class, 'destroy']);
 
-
-
 });
+
