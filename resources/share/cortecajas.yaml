@@ -1,0 +1,21 @@
+models:
+  Cortecaja:
+    store_id: id foreign
+    cor_id: bigInteger comment:'ID local del corte de caja'
+    fecha: datetime
+    contado: decimal:20,2
+    calculado: decimal:20,2
+    diferencia: decimal:20,2
+    retiro: decimal:20,2
+    caj_id: integer comment:'ID local de la caja'
+    caja_id: id foreign:cajas nullable comment:'ID del servidor de la caja'
+    validation_status: enum:valid,partial,invalid default:'valid'
+    validation_errors: json nullable
+
+    indexes:
+      - unique: store_id, cor_id
+      - index: caja_id
+
+controllers:
+  Cortecaja:
+    resource: api

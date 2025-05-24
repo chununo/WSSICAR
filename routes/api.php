@@ -20,6 +20,7 @@ use App\Http\Controllers\PromocionController;
 use App\Http\Controllers\DetallepromoController;
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\MonedaController;
+use App\Http\Controllers\CortecajaController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -94,6 +95,10 @@ Route::middleware(["auth:sanctum","have_store"])->group(function(){
 	Route::apiResource('cajas', CajaController::class);
 	// Controlador
 	Route::apiResource('monedas', MonedaController::class);
+	// Cortes de caja
+	Route::apiResource('cortecajas', CortecajaController::class);
 });
+
+
 
 
