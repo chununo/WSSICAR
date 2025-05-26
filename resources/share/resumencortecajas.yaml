@@ -1,0 +1,46 @@
+models:
+  Resumencortecaja:
+    store_id: id foreign
+    rcc_id: integer comment:'ID local del resumen'
+    cor_id: integer nullable comment:'ID local del corte de caja'
+    cortecaja_id: id foreign:cortecajas nullable comment:'ID servidor del corte de caja'
+    venCon: decimal:20,2
+    venCre: decimal:20,2
+    venConC: decimal:20,2
+    venCreC: decimal:20,2
+    comCon: decimal:20,2
+    comCre: decimal:20,2
+    comConC: decimal:20,2
+    comCreC: decimal:20,2
+    notCre: decimal:20,2 default:0.00
+    notCreC: decimal:20,2 default:0.00
+    entVen: decimal:20,2
+    entCre: decimal:20,2
+    entComC: decimal:20,2
+    entNotC: decimal:20,2 default:0.00
+    entMov: decimal:20,2
+    salCom: decimal:20,2
+    salCre: decimal:20,2
+    salVenC: decimal:20,2
+    salNot: decimal:20,2 default:0.00
+    salMov: decimal:20,2
+    gasCon: decimal:20,2 nullable
+    gasCre: decimal:20,2 nullable
+    gasConC: decimal:20,2 nullable
+    gasCreC: decimal:20,2 nullable
+    notCrePro: decimal:20,2 nullable
+    notCreProC: decimal:20,2 nullable
+    entGasC: decimal:20,2 nullable
+    salNotProC: decimal:20,2 nullable
+    salGas: decimal:20,2 nullable
+    entNotPro: decimal:20,2 nullable
+    validation_status: enum:valid,partial,invalid default:'valid'
+    validation_errors: json nullable
+
+    indexes:
+      - unique: store_id, rcc_id
+      - index: cortecaja_id
+
+controllers:
+  Resumencortecaja:
+    resource: api

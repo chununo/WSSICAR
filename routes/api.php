@@ -21,6 +21,7 @@ use App\Http\Controllers\DetallepromoController;
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\MonedaController;
 use App\Http\Controllers\CortecajaController;
+use App\Http\Controllers\ResumencortecajaController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -97,7 +98,11 @@ Route::middleware(["auth:sanctum","have_store"])->group(function(){
 	Route::apiResource('monedas', MonedaController::class);
 	// Cortes de caja
 	Route::apiResource('cortecajas', CortecajaController::class);
+	// Resumen de cortes de caja
+	Route::apiResource('resumencortecajas', ResumencortecajaController::class);
 });
+
+
 
 
 
