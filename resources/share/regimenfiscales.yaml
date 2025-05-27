@@ -1,0 +1,15 @@
+models:
+  Regimenfiscal:
+    store_id: id foreign
+    rgf_id: integer comment:'ID local del régimen fiscal'
+    clave: string:5
+    descripcion: string:255
+    fisica: boolean
+    moral: boolean
+
+    indexes:
+      - unique: store_id, rgf_id
+
+controllers:
+  Regimenfiscal:
+    resource: api
