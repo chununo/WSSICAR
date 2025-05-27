@@ -1,0 +1,15 @@
+models:
+  Grupocliente:
+    store_id: id foreign
+    grc_id: integer comment:'ID local del grupo cliente'
+    descripcion: string:255
+    precio: integer
+    precioObligatorio: boolean
+    status: integer
+
+    indexes:
+      - unique: store_id, grc_id
+
+controllers:
+  Grupocliente:
+    resource: api

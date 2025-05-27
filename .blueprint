@@ -1,13 +1,13 @@
 created:
-    - app/Http/Controllers/ResumencortecajaController.php
-    - database/factories/ResumencortecajaFactory.php
-    - database/migrations/2025_05_24_043626_create_resumencortecajas_table.php
-    - app/Models/Resumencortecaja.php
-    - tests/Feature/Http/Controllers/ResumencortecajaControllerTest.php
-    - app/Http/Requests/ResumencortecajaStoreRequest.php
-    - app/Http/Requests/ResumencortecajaUpdateRequest.php
-    - app/Http/Resources/ResumencortecajaCollection.php
-    - app/Http/Resources/ResumencortecajaResource.php
+    - app/Http/Controllers/GrupoclienteController.php
+    - database/factories/GrupoclienteFactory.php
+    - database/migrations/2025_05_27_011015_create_grupoclientes_table.php
+    - app/Models/Grupocliente.php
+    - tests/Feature/Http/Controllers/GrupoclienteControllerTest.php
+    - app/Http/Requests/GrupoclienteStoreRequest.php
+    - app/Http/Requests/GrupoclienteUpdateRequest.php
+    - app/Http/Resources/GrupoclienteCollection.php
+    - app/Http/Resources/GrupoclienteResource.php
 updated:
     - routes/api.php
 models:
@@ -31,3 +31,4 @@ models:
     User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
     Cortecaja: { store_id: 'id foreign', cor_id: "bigInteger comment:'ID local del corte de caja'", fecha: datetime, contado: 'decimal:20,2', calculado: 'decimal:20,2', diferencia: 'decimal:20,2', retiro: 'decimal:20,2', caj_id: "integer comment:'ID local de la caja'", caja_id: "id foreign:cajas nullable comment:'ID del servidor de la caja'", validation_status: "enum:valid,partial,invalid default:'valid'", validation_errors: 'json nullable', indexes: [{ unique: 'store_id, cor_id' }, { index: caja_id }] }
     Resumencortecaja: { store_id: 'id foreign', rcc_id: "integer comment:'ID local del resumen'", cor_id: "integer nullable comment:'ID local del corte de caja'", cortecaja_id: "id foreign:cortecajas nullable comment:'ID servidor del corte de caja'", venCon: 'decimal:20,2', venCre: 'decimal:20,2', venConC: 'decimal:20,2', venCreC: 'decimal:20,2', comCon: 'decimal:20,2', comCre: 'decimal:20,2', comConC: 'decimal:20,2', comCreC: 'decimal:20,2', notCre: 'decimal:20,2 default:0.00', notCreC: 'decimal:20,2 default:0.00', entVen: 'decimal:20,2', entCre: 'decimal:20,2', entComC: 'decimal:20,2', entNotC: 'decimal:20,2 default:0.00', entMov: 'decimal:20,2', salCom: 'decimal:20,2', salCre: 'decimal:20,2', salVenC: 'decimal:20,2', salNot: 'decimal:20,2 default:0.00', salMov: 'decimal:20,2', gasCon: 'decimal:20,2 nullable', gasCre: 'decimal:20,2 nullable', gasConC: 'decimal:20,2 nullable', gasCreC: 'decimal:20,2 nullable', notCrePro: 'decimal:20,2 nullable', notCreProC: 'decimal:20,2 nullable', entGasC: 'decimal:20,2 nullable', salNotProC: 'decimal:20,2 nullable', salGas: 'decimal:20,2 nullable', entNotPro: 'decimal:20,2 nullable', validation_status: "enum:valid,partial,invalid default:'valid'", validation_errors: 'json nullable', indexes: [{ unique: 'store_id, rcc_id' }, { index: cortecaja_id }] }
+    Grupocliente: { store_id: 'id foreign', grc_id: "integer comment:'ID local del grupo cliente'", descripcion: 'string:255', precio: integer, precioObligatorio: boolean, status: integer, indexes: [{ unique: 'store_id, grc_id' }] }
