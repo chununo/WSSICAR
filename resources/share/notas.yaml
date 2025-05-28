@@ -1,0 +1,17 @@
+models:
+  Nota:
+    store_id: id foreign
+    not_id: biginteger comment:'ID local de la nota (controlado por el cliente)'
+    cli_id: integer comment:'ID local del cliente (por tienda)'
+    cliente_id: id foreign:clientes nullable comment:'ID del cliente (servidor)'
+    validation_status: enum:valid,partial,invalid default:'valid'
+    validation_errors: json nullable
+
+    indexes:
+      - unique: store_id, not_id
+      - index: cli_id
+      - index: cliente_id
+
+controllers:
+  Nota:
+    resource: api
