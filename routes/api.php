@@ -111,7 +111,10 @@ Route::middleware(["auth:sanctum","have_store"])->group(function(){
 	Route::apiResource('regimenfiscales', RegimenfiscalController::class)->parameters(['regimenfiscales' => 'regimenfiscal']);
 	Route::apiResource('clientes', ClienteController::class);
 	Route::apiResource('notas', App\Http\Controllers\NotaController::class);
+	Route::apiResource('vacaciones', App\Http\Controllers\VacacionController::class)->parameter('vacaciones' ,'vacacion');
 });
+
+
 
 
 

@@ -1,13 +1,13 @@
 created:
-    - app/Http/Controllers/NotaController.php
-    - database/factories/NotaFactory.php
-    - database/migrations/2025_05_28_182052_create_notas_table.php
-    - app/Models/Nota.php
-    - tests/Feature/Http/Controllers/NotaControllerTest.php
-    - app/Http/Requests/NotumStoreRequest.php
-    - app/Http/Requests/NotumUpdateRequest.php
-    - app/Http/Resources/NotumCollection.php
-    - app/Http/Resources/NotumResource.php
+    - app/Http/Controllers/VacacionController.php
+    - database/factories/VacacionFactory.php
+    - database/migrations/2025_05_28_185553_create_vacacions_table.php
+    - app/Models/Vacacion.php
+    - tests/Feature/Http/Controllers/VacacionControllerTest.php
+    - app/Http/Requests/VacacionStoreRequest.php
+    - app/Http/Requests/VacacionUpdateRequest.php
+    - app/Http/Resources/VacacionCollection.php
+    - app/Http/Resources/VacacionResource.php
 updated:
     - routes/api.php
 models:
@@ -35,3 +35,4 @@ models:
     Regimenfiscal: { store_id: 'id foreign', rgf_id: "integer comment:'ID local del régimen fiscal'", clave: 'string:5', descripcion: 'string:255', fisica: boolean, moral: boolean, indexes: [{ unique: 'store_id, rgf_id' }] }
     Cliente: { store_id: 'id foreign', cli_id: integer, nombre: 'string:1000 nullable', representante: 'string:1000 nullable', domicilio: 'string:120', noExt: 'string:45', noInt: 'string:45', localidad: 'string:120', ciudad: 'string:120', estado: 'string:45', pais: 'string:45', codigoPostal: 'string:10', colonia: 'string:45', rfc: 'string:45', curp: 'string:45', telefono: 'string:45', celular: 'string:45', mail: 'string:255', comentario: 'string:255', status: integer, limite: 'decimal:20,2', precio: integer, diasCredito: integer, retener: 'boolean default:false', desglosarIEPS: 'boolean default:false', notificar: 'boolean default:true', clave: 'string:45 nullable', foto: 'binary nullable', huella: 'binary nullable', muestra: 'binary nullable', usoCfdi: 'string:10 nullable', idCIF: 'string:20 nullable', sid: 'string:15 nullable', eduNivel: 'string:128 nullable', eduClave: 'string:128 nullable', eduRfc: 'string:45 nullable', eduNombre: 'string:120 nullable', grc_id: "integer nullable comment:'ID local del grupo cliente'", grupocliente_id: "id foreign:grupoclientes nullable comment:'ID servidor del grupo cliente'", rgf_id: "integer nullable comment:'ID local del régimen fiscal'", regimenfiscal_id: "id foreign:regimenfiscales nullable comment:'ID servidor del régimen fiscal'", validation_status: "enum:valid,partial,invalid default:'valid'", validation_errors: 'json nullable', indexes: [{ unique: 'store_id, cli_id' }, { index: grupocliente_id }, { index: regimenfiscal_id }] }
     Nota: { store_id: 'id foreign', not_id: "biginteger comment:'ID local de la nota (controlado por el cliente)'", cli_id: "integer comment:'ID local del cliente (por tienda)'", cliente_id: "id foreign:clientes nullable comment:'ID del cliente (servidor)'", validation_status: "enum:valid,partial,invalid default:'valid'", validation_errors: 'json nullable', indexes: [{ unique: 'store_id, not_id' }, { index: cli_id }, { index: cliente_id }] }
+    Vacacion: { store_id: 'id foreign', vac_id: "integer comment:'ID local definido por el cliente'", nombre: 'string:255', minimo: 'integer default:12', a1: integer, a2: integer, a3: integer, a4: integer, a5: integer, a6: integer, a7: integer, a8: integer, a9: integer, a10: integer, a11: integer, a12: integer, a13: integer, a14: integer, a15: integer, a16: integer, a17: integer, a18: integer, a19: integer, a20: integer, a21: integer, a22: integer, a23: integer, a24: integer, a25: integer, a26: integer, a27: integer, a28: integer, a29: integer, a30: integer, a31: integer, a32: integer, a33: integer, a34: integer, a35: integer, a36: integer, a37: integer, a38: integer, a39: integer, a40: integer, fechaVigorReemplazo: 'date nullable', vacacionReemplazo: "integer nullable comment:'ID local del reemplazo'", vacacionreemplazo_id: "id foreign:vacaciones nullable comment:'ID servidor del reemplazo'", validation_status: "enum:valid,partial,invalid default:'valid'", validation_errors: 'json nullable', indexes: [{ unique: 'store_id, vac_id' }, { index: vacacionreemplazo_id }] }
