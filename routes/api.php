@@ -24,6 +24,7 @@ use App\Http\Controllers\CortecajaController;
 use App\Http\Controllers\ResumencortecajaController;
 use App\Http\Controllers\GrupoclienteController;
 use App\Http\Controllers\RegimenfiscalController;
+use App\Http\Controllers\ClienteController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -108,4 +109,6 @@ Route::middleware(["auth:sanctum","have_store"])->group(function(){
 Route::middleware(["auth:sanctum","have_store"])->group(function(){
 	Route::apiResource('grupoclientes', GrupoclienteController::class);
 	Route::apiResource('regimenfiscales', RegimenfiscalController::class)->parameters(['regimenfiscales' => 'regimenfiscal']);
+	Route::apiResource('clientes', ClienteController::class);
 });
+

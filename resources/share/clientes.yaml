@@ -1,0 +1,54 @@
+models:
+  Cliente:
+    store_id: id foreign
+    cli_id: integer
+    nombre: string:1000 nullable
+    representante: string:1000 nullable
+    domicilio: string:120
+    noExt: string:45
+    noInt: string:45
+    localidad: string:120
+    ciudad: string:120
+    estado: string:45
+    pais: string:45
+    codigoPostal: string:10
+    colonia: string:45
+    rfc: string:45
+    curp: string:45
+    telefono: string:45
+    celular: string:45
+    mail: string:255
+    comentario: string:255
+    status: integer
+    limite: decimal:20,2
+    precio: integer
+    diasCredito: integer
+    retener: boolean default:false
+    desglosarIEPS: boolean default:false
+    notificar: boolean default:true
+    clave: string:45 nullable
+    foto: binary nullable
+    huella: binary nullable
+    muestra: binary nullable
+    usoCfdi: string:10 nullable
+    idCIF: string:20 nullable
+    sid: string:15 nullable
+    eduNivel: string:128 nullable
+    eduClave: string:128 nullable
+    eduRfc: string:45 nullable
+    eduNombre: string:120 nullable
+    grc_id: integer nullable comment:'ID local del grupo cliente'
+    grupocliente_id: id foreign:grupoclientes nullable comment:'ID servidor del grupo cliente'
+    rgf_id: integer nullable comment:'ID local del régimen fiscal'
+    regimenfiscal_id: id foreign:regimenfiscales nullable comment:'ID servidor del régimen fiscal'
+    validation_status: enum:valid,partial,invalid default:'valid'
+    validation_errors: json nullable
+
+    indexes:
+      - unique: store_id, cli_id
+      - index: grupocliente_id
+      - index: regimenfiscal_id
+
+controllers:
+  Cliente:
+    resource: api
