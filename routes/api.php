@@ -105,16 +105,18 @@ Route::middleware(["auth:sanctum","have_store"])->group(function(){
 	Route::apiResource('resumencortecajas', ResumencortecajaController::class);
 });
 
-// Vendedores y clientes
+// Clientes
 Route::middleware(["auth:sanctum","have_store"])->group(function(){
 	Route::apiResource('grupoclientes', GrupoclienteController::class);
 	Route::apiResource('regimenfiscales', RegimenfiscalController::class)->parameters(['regimenfiscales' => 'regimenfiscal']);
 	Route::apiResource('clientes', ClienteController::class);
-	Route::apiResource('notas', App\Http\Controllers\NotaController::class);
-	Route::apiResource('vacaciones', App\Http\Controllers\VacacionController::class)->parameter('vacaciones' ,'vacacion');
 });
 
-
-
+// Vendedores
+Route::middleware(["auth:sanctum","have_store"])->group(function(){
+	Route::apiResource('notas', App\Http\Controllers\NotaController::class);
+	Route::apiResource('vacaciones', App\Http\Controllers\VacacionController::class)->parameter('vacaciones' ,'vacacion');
+	Route::apiResource('turnos', App\Http\Controllers\TurnoController::class);
+});
 
 

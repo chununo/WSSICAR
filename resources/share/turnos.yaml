@@ -1,0 +1,39 @@
+models:
+  Turno:
+    store_id: id foreign
+    tur_id: integer comment:'ID local del turno'
+    nombre: string:45
+    nocturno: boolean
+    semana: boolean
+    horaEnt: time nullable
+    horaSal: time nullable
+    lunes: boolean nullable
+    entLun: time nullable
+    salLun: time nullable
+    martes: boolean nullable
+    entMar: time nullable
+    salMar: time nullable
+    miercoles: boolean nullable
+    entMie: time nullable
+    salMie: time nullable
+    jueves: boolean nullable
+    entJue: time nullable
+    salJue: time nullable
+    viernes: boolean nullable
+    entVie: time nullable
+    salVie: time nullable
+    sabado: boolean nullable
+    entSab: time nullable
+    salSab: time nullable
+    domingo: boolean nullable
+    entDom: time nullable
+    salDom: time nullable
+    tipo: integer default:1 comment:'1 - Turno Normal, 2 - Excepciones'
+    status: integer default:1 comment:'1 - Activo, 2 - Eliminado'
+
+    indexes:
+      - unique: store_id, tur_id
+
+controllers:
+  Turno:
+    resource: api
